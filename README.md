@@ -1,24 +1,20 @@
 # Quincy
 
-TODO: Write a gem description
+Quincy is utility for turning a directory into a static HTTP server.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'quincy'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install quincy
+``` shell
+gem install quincy
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+``` shell
+quincy
+```
+
+View at `http://localhost:5634`
 
 ## Contributing
 
@@ -27,3 +23,7 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Copyright
+
+Copyright (c) 2013 Zachary Elliott. See LICENSE for further details.
