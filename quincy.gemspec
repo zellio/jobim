@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Zachary Elliott"]
   spec.email         = ["zach@nyu.edu"]
 
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.summary       = %q{Popup HTTP Server}
+  spec.description   = %q{Popup HTTP Server for serving static content.}
 
   spec.homepage      = "https://github.com/zellio/quincy"
 
