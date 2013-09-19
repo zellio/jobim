@@ -5,9 +5,9 @@ file = Pathname.new(__FILE__).realpath
 
 $:.unshift File.expand_path("../../lib", file)
 
-require 'quincy'
+require 'jobim'
 
-opts = Quincy::CLI.run!(*ARGV)
+opts = Jobim::CLI.run!(*ARGV)
 
 exit if opts.nil?
 

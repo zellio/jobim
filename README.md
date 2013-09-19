@@ -1,17 +1,17 @@
-# Quincy
+# Jobim
 
-Quincy is utility for turning a directory into a static HTTP server.
+Jobim is utility for turning a directory into a static HTTP server.
 
 ## Installation
 
 ``` shell
-gem install quincy
+gem install jobim
 ```
 
 ## Usage
 
 ``` shell
-quincy
+jobim
 ```
 
 View at `http://localhost:5634`

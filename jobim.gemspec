@@ -1,11 +1,11 @@
 # coding: utf-8
 
 $:.unshift File.expand_path("../lib", __FILE__)
-require 'quincy/version'
+require 'jobim/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "quincy"
-  spec.version       = Quincy::VERSION
+  spec.name          = "jobim"
+  spec.version       = Jobim::VERSION
 
   spec.authors       = ["Zachary Elliott"]
   spec.email         = ["zach@nyu.edu"]
@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Popup HTTP Server}
   spec.description   = %q{Popup HTTP Server for serving static content.}
 
-  spec.homepage      = "https://github.com/zellio/quincy"
+  spec.homepage      = "https://github.com/zellio/jobim"
 
   spec.license       = "MIT"
 

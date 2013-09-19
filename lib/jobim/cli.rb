@@ -1,12 +1,12 @@
 
 require 'optparse'
 
-class Quincy::CLI
+class Jobim::CLI
 
   attr_reader :parser, :options
 
   def self.run!(*args, &opts)
-    cli = Quincy::CLI.new
+    cli = Jobim::CLI.new
     begin
       cli.parse(args)
       cli.options
@@ -22,9 +22,9 @@ class Quincy::CLI
 
   def parser
     @parser ||= OptionParser.new do |o|
-      o.banner = "quincy - TODO: FINISH ME"
+      o.banner = "jobim - TODO: FINISH ME"
       o.separator ""
-      o.separator "Usage: quincy [OPTION]... [DIRECTORY]"
+      o.separator "Usage: jobim [OPTION]... [DIRECTORY]"
       o.separator ""
       # o.separator "Specific options:"
       # o.separator ""
@@ -34,7 +34,7 @@ class Quincy::CLI
         exit
       end
       o.on "--version", "Display the version number" do
-        options[:version] = Quincy::VERSION
+        options[:version] = Jobim::VERSION
         puts options[:version]
         exit
       end
