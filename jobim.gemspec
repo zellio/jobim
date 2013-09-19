@@ -30,4 +30,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'github-markup', "~> 0.7"
 
   spec.add_runtime_dependency "thin", "~> 1.5"
+  spec.add_runtime_dependency "rack-rewrite", "~> 1.2"
+
 end

@@ -12,7 +12,7 @@ opts = Jobim::CLI.run!(*ARGV)
 exit if opts.nil?
 
 require 'rack'
-require 'rack-rewrite'
+require 'rack/rewrite'
 
 app = Rack::Builder.new do
   use Rack::Rewrite do
