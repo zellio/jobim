@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require 'pathname'
+file = Pathname.new(__FILE__).realpath
+
+$:.unshift File.expand_path("../../lib", file)
+
+require 'quincy'
+
+opts = Quincy::CLI.run!(*ARGV)
+
+exit if opts.nil?
+
+require 'rack'
+require 'rack-rewrite'
+
+app = Rack::Builder.new do
+  use Rack::Rewrite do
+    rewrite '/', '/index.html'
+  end
+  use Rack::CommonLogger, STDOUT
+  run Rack::Directory.new(opts[:dir])
+end
+
+puts ">>> Serving #{opts[:dir]}"
+
+Rack::Handler::Thin.run app
