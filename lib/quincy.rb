@@ -1,5 +1,7 @@
-require "quincy/version"
 
 module Quincy
-  # Your code goes here...
+
+  require "quincy/version"
+  require "quincy/cli"
+
 end
