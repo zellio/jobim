@@ -19,7 +19,8 @@ class Jobim::CLI
   def options
     @options ||= {
       :dir => Dir.pwd,
-      :host => '0.0.0.0'
+      :host => '0.0.0.0',
+      :port => 5634
     }
   end
 
@@ -35,6 +36,10 @@ class Jobim::CLI
       o.on("-a", "--address HOST",
            "bind to HOST address (default: 0.0.0.0)") do |host|
         options[:host] = host
+      end
+
+      o.on "-p", "--port PORT", "use PORT (default: 5634)" do |port|
+        options[:port] = port
       end
 
       o.separator ""
