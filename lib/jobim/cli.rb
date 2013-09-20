@@ -18,7 +18,8 @@ class Jobim::CLI
 
   def options
     @options ||= {
-      :dir => Dir.pwd
+      :dir => Dir.pwd,
+      :host => '0.0.0.0'
     }
   end
 
@@ -27,10 +28,18 @@ class Jobim::CLI
       o.banner = "jobim - TODO: FINISH ME"
       o.separator ""
       o.separator "Usage: jobim [OPTION]... [DIRECTORY]"
+
       o.separator ""
-      # o.separator "Specific options:"
-      # o.separator ""
+      o.separator "Specific options:"
+
+      o.on("-a", "--address HOST",
+           "bind to HOST address (default: 0.0.0.0)") do |host|
+        options[:host] = host
+      end
+
+      o.separator ""
       o.separator "General options:"
+
       o.on "-h", "--help", "Display this help message." do
         puts help
         exit

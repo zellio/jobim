@@ -24,4 +24,4 @@ end
 
 puts ">>> Serving #{opts[:dir]}"
 
-Rack::Handler::Thin.run app, :Port => 5634
+Rack::Handler::Thin.run app, :Host => opts[:host], :Port => 5634
