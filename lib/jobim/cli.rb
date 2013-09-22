@@ -29,9 +29,7 @@ class Jobim::CLI
 
   def parser
     @parser ||= OptionParser.new do |o|
-      o.banner = "jobim - TODO: FINISH ME"
-      o.separator ""
-      o.separator "Usage: jobim [OPTION]... [DIRECTORY]"
+      o.banner = "Usage: jobim [OPTION]... [DIRECTORY]"
 
       o.separator ""
       o.separator "Specific options:"
@@ -69,6 +67,11 @@ class Jobim::CLI
         puts options[:version]
         exit
       end
+
+      o.separator ""
+      o.separator "Jobim home page: <https://github.com/zellio/jobim/>"
+      o.separator "Report bugs to: <https://github.com/zellio/jobim/issues>"
+      o.separator ""
     end
   end
 
