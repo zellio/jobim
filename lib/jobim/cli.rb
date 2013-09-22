@@ -69,7 +69,7 @@ class Jobim::CLI
 
   def parse(args)
     parser.parse!(args)
-    options[:dir] = File.expand_path(args[0]) if args.length == 1
+    options[:Dir] = File.expand_path(args[0]) if args.length == 1
   end
 
   def help

@@ -22,7 +22,7 @@ app = Rack::Builder.new do
   run Rack::Directory.new(opts[:Dir])
 end
 
-puts ">>> Serving #{opts[:dir]}"
+puts ">>> Serving #{opts[:Dir]}"
 
 Rack::Handler::Thin.run(app, opts) do |server|
   if opts[:Daemonize]
