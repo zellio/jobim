@@ -18,8 +18,12 @@ app = Rack::Builder.new do
   use Rack::Rewrite do
     rewrite '/', '/index.html'
   end
+
   use Rack::CommonLogger, STDOUT
-  run Rack::Directory.new(opts[:Dir])
+
+  map opts[:Prefix] do
+    run Rack::Directory.new(opts[:Dir])
+  end
 end
 
 puts ">>> Serving #{opts[:Dir]}"
