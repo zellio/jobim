@@ -19,7 +19,7 @@ class Jobim::CLI
   def options
     @options ||= {
       :Daemonize => false,
-      :dir => Dir.pwd,
+      :Dir => Dir.pwd,
       :Host => '0.0.0.0',
       :Port => 5634,
       :Quiet => false
