@@ -30,4 +30,6 @@ Rack::Handler::Thin.run(app, opts) do |server|
     server.log_file = 'jobim.log'
     server.daemonize
   end
+
+  Thin::Logging.silent = opts[:Quiet]
 end

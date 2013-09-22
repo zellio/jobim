@@ -21,7 +21,8 @@ class Jobim::CLI
       :Daemonize => false,
       :dir => Dir.pwd,
       :Host => '0.0.0.0',
-      :Port => 5634
+      :Port => 5634,
+      :Quiet => false
     }
   end
 
@@ -45,6 +46,10 @@ class Jobim::CLI
 
       o.on "-p", "--port PORT", "use PORT (default: 5634)" do |port|
         options[:Port] = port
+      end
+
+      o.on "-q", "--quiet", "Silence all logging" do
+        options[:Quiet] = true
       end
 
       o.separator ""
