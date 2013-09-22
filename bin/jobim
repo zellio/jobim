@@ -24,4 +24,10 @@ end
 
 puts ">>> Serving #{opts[:dir]}"
 
-Rack::Handler::Thin.run(app, opts)
+Rack::Handler::Thin.run(app, opts) do |server|
+  if opts[:Daemonize]
+    server.pid_file = 'jobim.pid'
+    server.log_file = 'jobim.log'
+    server.daemonize
+  end
+end

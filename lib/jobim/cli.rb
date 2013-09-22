@@ -18,6 +18,7 @@ class Jobim::CLI
 
   def options
     @options ||= {
+      :Daemonize => false,
       :dir => Dir.pwd,
       :Host => '0.0.0.0',
       :Port => 5634
@@ -36,6 +37,10 @@ class Jobim::CLI
       o.on("-a", "--address HOST",
            "bind to HOST address (default: 0.0.0.0)") do |host|
         options[:Host] = host
+      end
+
+      o.on "-d", "--daemonize", "Run as a daemon process" do
+        options[:Daemonize] = true
       end
 
       o.on "-p", "--port PORT", "use PORT (default: 5634)" do |port|
