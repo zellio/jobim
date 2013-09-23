@@ -1,8 +1,13 @@
 # Jobim
 
-Jobim is utility for turning a directory into a static HTTP server.
+`jobim` is a small ruby utility to pop-up an HTTP server on top of any given
+directory. `jobim` leverages [Thin](//github.com/macournoyer/thin/) and offers a
+limited subset of the `thin` utilities for your convenience.
 
 ## Installation
+
+`jobim` is registered on [rubygems](//rubygems.org/gems/jobim) and is therefore
+available anywhere good gems are sold.
 
 ``` shell
 gem install jobim
@@ -10,11 +15,12 @@ gem install jobim
 
 ## Usage
 
-``` shell
-jobim
-```
+`jobim` is run like `thin` with no configure script.
 
-View at `http://localhost:5634`
+``` shell
+jobim path/to/webroot
+```
+The site can then be view at `http://localhost:5634`
 
 ## Contributing
 
@@ -26,4 +32,4 @@ View at `http://localhost:5634`
 
 ## Copyright
 
-Copyright (c) 2013 Zachary Elliott. See LICENSE for further details.
+Copyright (c) 2013 Zachary Elliott. See [LICENSE](/LICENSE) for further details.
