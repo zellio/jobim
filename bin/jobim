@@ -16,8 +16,9 @@ require 'rack/rewrite'
 
 app = Rack::Builder.new do
   use Rack::Rewrite do
-    rewrite %r{(.*)/$}, "$1/index.html", :if => -> (env) {
-      File.exists?("#{$1}/index,html")
+    rewrite %r{^(.*)/$}, "$1/index.html", :if => -> (env) {
+      env["REQUEST_PATH"][-1,1] == "/" and
+        File.exists?(File.join(opts[:Dir], env["REQUEST_PATH"], "index.html"))
     }
   end
 
