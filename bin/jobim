@@ -16,7 +16,9 @@ require 'rack/rewrite'
 
 app = Rack::Builder.new do
   use Rack::Rewrite do
-    rewrite '/', '/index.html'
+    rewrite %r{(.*)/$}, "$1/index.html", :if => -> (env) {
+      File.exists?("#{$1}/index,html")
+    }
   end
 
   use Rack::CommonLogger, STDOUT
