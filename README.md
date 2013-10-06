@@ -18,16 +18,6 @@ gem install jobim
 
 ## Usage
 
-`jobim` is run like `thin` but does not require a configuration script. By
-default `jobim` will bind to `0.0.0.0:5634` and serve the current working
-directory.
-
-``` shell
-jobim path/to/webroot
-```
-
-The site can be viewed at `http://localhost:5634` via a normal web browser.
-
 ```
 Usage: jobim [OPTION]... [DIRECTORY]
 
@@ -45,6 +35,16 @@ General options:
 Jobim home page: <https://github.com/zellio/jobim/>
 Report bugs to: <https://github.com/zellio/jobim/issues>
 ```
+
+`jobim` is run like `thin` but does not require a configuration script. By
+default `jobim` will bind to `0.0.0.0:5634` and serve the current working
+directory.
+
+``` shell
+jobim path/to/webroot
+```
+
+The site can be viewed at `http://localhost:5634` via a normal web browser.
 
 ## Contributing
 
