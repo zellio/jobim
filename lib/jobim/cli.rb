@@ -9,7 +9,9 @@ class Jobim::CLI
     cli = Jobim::CLI.new
     begin
       cli.parse(args)
-      cli.options
+      options = cli.options
+      exit if options.nil?
+      Jobim::Server.start options
     rescue
       puts cli.help
       exit
