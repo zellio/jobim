@@ -1,5 +1,6 @@
-
 # Jobim
+
+[![Gem Version](https://badge.fury.io/rb/jobim.png)](http://badge.fury.io/rb/jobim)
 
 `jobim` is a light utility for generating a static HTTP server. This allows
 for rapid website design and development without the hassle and security risk
