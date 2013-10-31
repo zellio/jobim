@@ -10,11 +10,18 @@ class Jobim::CLI
     begin
       cli.parse(args)
       options = cli.options
+
       exit if options.nil?
+
       Jobim::Server.start options
-    rescue
+
+    rescue OptionParser::InvalidOption => io
+      puts ">>> Error: #{io}"
       puts cli.help
-      exit
+
+    rescue RuntimeError => er
+      puts ">>> Failed to start server"
+      puts ">> #{er}"
     end
   end
 
