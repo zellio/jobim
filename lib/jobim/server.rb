@@ -6,7 +6,7 @@ module Jobim::Server
   def self.start(opts)
     app = Rack::Builder.new do
       use Rack::Rewrite do
-        rewrite %r{(.*)}, -> (match, env) do
+        rewrite %r{(.*)}, lambda do |match, env|
           request_path = env["REQUEST_PATH"]
 
           return match[1] if opts[:Prefix].length > request_path.length
