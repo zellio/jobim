@@ -1,6 +1,8 @@
 # Jobim
 
 [![Gem Version](https://badge.fury.io/rb/jobim.png)](http://badge.fury.io/rb/jobim)
+[![Dependency Status](https://gemnasium.com/zellio/jobim.png)](https://gemnasium.com/zellio/jobim)
+[![Code Climate](https://codeclimate.com/github/zellio/jobim.png)](https://codeclimate.com/github/zellio/jobim)
 
 `jobim` is a light utility for generating a static HTTP server. This allows
 for rapid website design and development without the hassle and security risk
