@@ -1,4 +1,3 @@
-
 require 'optparse'
 
 class Jobim::CLI
@@ -15,13 +14,13 @@ class Jobim::CLI
 
       Jobim::Server.start options
 
-    rescue OptionParser::InvalidOption => io
-      puts ">>> Error: #{io}"
+    rescue OptionParser::InvalidOption => invalid_option
+      puts ">>> Error: #{invalid_option}"
       puts cli.help
 
-    rescue RuntimeError => er
+    rescue RuntimeError => runtime_error
       puts ">>> Failed to start server"
-      puts ">> #{er}"
+      puts ">> #{runtime_error}"
     end
   end
 
