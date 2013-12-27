@@ -2,17 +2,16 @@ require 'optparse'
 
 class Jobim::CLI
 
-  attr_reader :parser, :options
+  attr_reader :parser, :settings
 
   def self.run!(*args, &opts)
     cli = Jobim::CLI.new
     begin
       cli.parse(args)
-      options = cli.options
 
-      exit if options.nil?
+      exit if cli.options.nil?
 
-      Jobim::Server.start options
+      Jobim::Server.start cli.options
 
     rescue OptionParser::InvalidOption => invalid_option
       puts ">>> Error: #{invalid_option}"
@@ -24,15 +23,12 @@ class Jobim::CLI
     end
   end
 
+  def settings
+    @settings ||= Jobim::Settings.new
+  end
+
   def options
-    @options ||= {
-      :Daemonize => false,
-      :Dir => Dir.pwd,
-      :Host => '0.0.0.0',
-      :Port => 5634,
-      :Prefix => '/',
-      :Quiet => false
-    }
+    settings.options
   end
 
   def parser
