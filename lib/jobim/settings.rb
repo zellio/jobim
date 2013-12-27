@@ -25,6 +25,12 @@ class Jobim::Settings
       opts[(key.to_s.capitalize.to_sym rescue key) || key] = opts.delete(key)
     end
 
+    if opts[:Dir]
+      unless Pathname.new(opts[:Dir]).absolute?
+        opts[:Dir] = File.expand_path("../#{opts[:Dir]}", file)
+      end
+    end
+
     options.merge!(opts)
   end
 
