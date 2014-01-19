@@ -59,4 +59,4 @@ The site can be viewed at `http://localhost:5634` via a normal web browser.
 
 ## Copyright
 
-Copyright (c) 2013 Zachary Elliott. See [LICENSE](/LICENSE) for further details.
+Copyright (c) 2013-2014 Zachary Elliott. See [LICENSE](/LICENSE) for further details.
