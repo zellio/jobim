@@ -13,7 +13,7 @@ class Jobim::Settings
       :Daemonize => false,
       :Dir => Dir.pwd,
       :Host => '0.0.0.0',
-      :Port => 5634,
+      :Port => 3000,
       :Prefix => '/',
       :Quiet => false
     }

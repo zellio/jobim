@@ -27,7 +27,7 @@ Usage: jobim [OPTION]... [DIRECTORY]
 Specific options:
     -a, --address HOST               bind to HOST address (default: 0.0.0.0)
     -d, --daemonize                  Run as a daemon process
-    -p, --port PORT                  use PORT (default: 5634)
+    -p, --port PORT                  use PORT (default: 3000)
     -P, --prefix PATH                Mount the app under PATH
     -q, --quiet                      Silence all logging
 
@@ -40,14 +40,14 @@ Report bugs to: <https://github.com/zellio/jobim/issues>
 ```
 
 `jobim` is run like `thin` but does not require a configuration script. By
-default `jobim` will bind to `0.0.0.0:5634` and serve the current working
+default `jobim` will bind to `0.0.0.0:3000` and serve the current working
 directory.
 
 ``` shell
 jobim path/to/webroot
 ```
 
-The site can be viewed at `http://localhost:5634` via a normal web browser.
+The site can be viewed at `http://localhost:3000` via a normal web browser.
 
 ## Contributing
 
