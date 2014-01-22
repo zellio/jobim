@@ -39,8 +39,10 @@ class Jobim::Settings
     files = []
 
     loop do
-      file = File.expand_path('.jobim.yaml', dir)
+      file = File.expand_path('.jobim.yml', dir)
+      files.unshift(file) if File.exists? file
 
+      file = File.expand_path('.jobim.yaml', dir)
       files.unshift(file) if File.exists? file
 
       break if dir.root?
