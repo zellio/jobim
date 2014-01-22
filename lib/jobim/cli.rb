@@ -47,7 +47,7 @@ class Jobim::CLI
         options[:Daemonize] = true
       end
 
-      o.on "-p", "--port PORT", "use PORT (default: 5634)" do |port|
+      o.on "-p", "--port PORT", "use PORT (default: 3000)" do |port|
         options[:Port] = port
       end
 
