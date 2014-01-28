@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'yard', "~> 0.8"
   spec.add_development_dependency 'redcarpet', "~> 3.0"
   spec.add_development_dependency 'github-markup', "~> 0.7"
+  spec.add_development_dependency 'fakefs', '~> 0.5'
 
   spec.add_runtime_dependency "thin", "~> 1.5"
   spec.add_runtime_dependency "rack-rewrite", "~> 1.2"

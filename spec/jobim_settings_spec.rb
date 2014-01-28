@@ -7,7 +7,7 @@ describe Jobim::Settings do
   describe "#initialize" do
   end
 
-  describe "#options" do
+  describe "#options", fakefs: true do
   end
 
   describe "#load_file" do
