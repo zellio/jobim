@@ -2,17 +2,28 @@ require 'spec_helper'
 
 describe Jobim::Settings, fakefs: true do
 
+  let(:settings) { Jobim::Settings.new }
+  let(:options) { settings.options }
+
   before(:each) do
     Dir.mkdir("/jobim")
     Dir.mkdir("/jobim/pub")
+
+    unless example.metadata[:no_configs]
+      file = RealFile.expand_path(__FILE__)
+      config_dir = RealFile.expand_path("../configs", file)
+      root_config = RealFile.read(RealFile.expand_path("root_conf.yml", config_dir))
+      user_config = RealFile.read(RealFile.expand_path("user_conf.yml", config_dir))
+
+      File.open("/.jobim.yml", "w") {|file| file.write root_config }
+      File.open("/jobim/.jobim.yml", "w") {|file| file.write user_config }
+    end
   end
 
   describe "#initialize" do
   end
 
-  describe "#options" do
-    subject(:options) { Jobim::Settings.new.options }
-
+  describe "#options", no_configs: true do
     it 'defaults :Daemonize to false' do
       expect(options[:Daemonize]).to be_false
     end
@@ -39,20 +50,19 @@ describe Jobim::Settings, fakefs: true do
   end
 
   describe "#load_file" do
-    before(:each) do
-      file = RealFile.expand_path(__FILE__)
-      config_dir = RealFile.expand_path("../configs", file)
-      root_config = RealFile.read(RealFile.expand_path("root_conf.yml", config_dir))
-      user_config = RealFile.read(RealFile.expand_path("user_conf.yml", config_dir))
-
-      File.open("/.jobim.yml", "w") {|file| file.write root_config }
-      File.open("/jobim/.jobim.yml", "w") {|file| file.write user_config }
+    it 'loads config data into #options' do
+      settings.load_file("/.jobim.yml")
+      expect(options[:Daemonize]).to be_true
     end
 
-    it 'loads config data into #options' do
+    it 'only changes confiugred options' do
+      settings.load_file('/.jobim.yml')
+      expect(options[:Port]).to eql 3000
     end
 
     it 'expands directories relative to the config file location' do
+      settings.load_file('/jobim/.jobim.yml')
+      expect(options[:Dir]).to eql "/jobim/pub"
     end
   end
 

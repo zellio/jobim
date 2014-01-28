@@ -1,3 +1,3 @@
 ---
 :Port: 1234
-:Dir: './pub'
+:Dir: 'pub'
