@@ -1,13 +1,11 @@
 require 'spec_helper'
 
-describe Jobim::Settings do
-
-  attr_reader :options
+describe Jobim::Settings, fakefs: true do
 
   describe "#initialize" do
   end
 
-  describe "#options", fakefs: true do
+  describe "#options" do
     subject(:options) { Jobim::Settings.new.options }
 
     it 'defaults :Daemonize to false' do
@@ -15,19 +13,19 @@ describe Jobim::Settings do
     end
 
     it 'defaults :Dir to current working directory' do
-      options[:Dir].should be Dir.pwd
+      options[:Dir].should eql Dir.pwd
     end
 
     it 'defaults :Host to localhost' do
-      options[:Host].should be 'localhost'
+      options[:Host].should eql 'localhost'
     end
 
     it 'defaults :Port to 3000' do
-      options[:Port].should be 3000
+      options[:Port].should eql 3000
     end
 
     it 'default :Prefix to /' do
-      options[:Prefix].should be '/'
+      options[:Prefix].should eql '/'
     end
 
     it 'defaults :Quiet to false' do
