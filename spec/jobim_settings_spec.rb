@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe Jobim::Settings, fakefs: true do
 
+  before(:each) do
+    puts "foo"
+  end
+
   describe "#initialize" do
   end
 
@@ -9,27 +13,27 @@ describe Jobim::Settings, fakefs: true do
     subject(:options) { Jobim::Settings.new.options }
 
     it 'defaults :Daemonize to false' do
-      options[:Daemonize].should be_false
+      expect(options[:Daemonize]).to be_false
     end
 
     it 'defaults :Dir to current working directory' do
-      options[:Dir].should eql Dir.pwd
+      expect(options[:Dir]).to eql Dir.pwd
     end
 
     it 'defaults :Host to localhost' do
-      options[:Host].should eql 'localhost'
+      expect(options[:Host]).to eql 'localhost'
     end
 
     it 'defaults :Port to 3000' do
-      options[:Port].should eql 3000
+      expect(options[:Port]).to eql 3000
     end
 
     it 'default :Prefix to /' do
-      options[:Prefix].should eql '/'
+      expect(options[:Prefix]).to eql '/'
     end
 
     it 'defaults :Quiet to false' do
-      options[:Quiet].should be_false
+      expect(options[:Quiet]).to be_false
     end
   end
 
