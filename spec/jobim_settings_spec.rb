@@ -3,7 +3,8 @@ require 'spec_helper'
 describe Jobim::Settings, fakefs: true do
 
   before(:each) do
-    puts "foo"
+    Dir.mkdir("/jobim")
+    Dir.mkdir("/jobim/pub")
   end
 
   describe "#initialize" do
@@ -38,6 +39,21 @@ describe Jobim::Settings, fakefs: true do
   end
 
   describe "#load_file" do
+    before(:each) do
+      file = RealFile.expand_path(__FILE__)
+      config_dir = RealFile.expand_path("../configs", file)
+      root_config = RealFile.read(RealFile.expand_path("root_conf.yml", config_dir))
+      user_config = RealFile.read(RealFile.expand_path("user_conf.yml", config_dir))
+
+      File.open("/.jobim.yml", "w") {|file| file.write root_config }
+      File.open("/jobim/.jobim.yml", "w") {|file| file.write user_config }
+    end
+
+    it 'loads config data into #options' do
+    end
+
+    it 'expands directories relative to the config file location' do
+    end
   end
 
   describe "#load" do
