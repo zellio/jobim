@@ -35,7 +35,7 @@ class Jobim::Settings
   end
 
   def load
-    dir = Pathname('.').realpath
+    dir = Pathname(Dir.pwd)
     files = []
 
     loop do
