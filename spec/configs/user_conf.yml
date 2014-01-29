@@ -1,3 +1,4 @@
 ---
 :Port: 1234
-:Dir: 'pub'
+:Dir: 'public_html'
+:Prefix: '/web_root'

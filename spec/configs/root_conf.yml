@@ -1,2 +1,3 @@
 ---
 :Daemonize: True
+:Dir: '/pub'
