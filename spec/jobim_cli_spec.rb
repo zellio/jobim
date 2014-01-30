@@ -23,6 +23,17 @@ describe Jobim::CLI do
       Jobim::Server.should_receive(:start)
       Jobim::CLI.run!
     end
+
+    it 'catches InvalidOption and reports to stderr' do
+      $stderr.should_receive(:write)
+      Jobim::CLI.run!("--foo")
+    end
+
+    it 'catches RuntimeError and reports to stderr' do
+      $stderr.should_receive(:write)
+      Jobim::Server.unstub(:start)
+      Jobim::CLI.run!("--port", "1")
+    end
   end
 
   describe "#parser" do
