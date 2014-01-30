@@ -42,8 +42,8 @@ describe Jobim::Settings, fakefs: true do
       expect(options[:Dir]).to eql Dir.pwd
     end
 
-    it 'defaults :Host to localhost' do
-      expect(options[:Host]).to eql 'localhost'
+    it 'defaults :Host to 0.0.0.0' do
+      expect(options[:Host]).to eql '0.0.0.0'
     end
 
     it 'defaults :Port to 3000' do
