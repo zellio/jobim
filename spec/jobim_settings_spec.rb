@@ -50,7 +50,7 @@ describe Jobim::Settings, fakefs: true do
       expect(options[:Port]).to eql 3000
     end
 
-    it 'default :Prefix to /' do
+    it 'defaults :Prefix to /' do
       expect(options[:Prefix]).to eql '/'
     end
 
