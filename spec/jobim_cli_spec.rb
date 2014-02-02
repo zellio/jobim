@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Jobim::CLI do
+describe Jobim::CLI, fakefs: true do
 
   let(:cli) { Jobim::CLI.new }
 
