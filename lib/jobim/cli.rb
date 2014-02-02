@@ -11,7 +11,7 @@ class Jobim::CLI
 
       exit if cli.exit
 
-      Jobim::Server.start cli.options
+      Jobim::Server.start! cli.options
     rescue OptionParser::InvalidOption => invalid_option
       $stderr.puts ">>> Error: #{invalid_option}"
       $stderr.puts cli.help

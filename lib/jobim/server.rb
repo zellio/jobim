@@ -1,10 +1,46 @@
 require 'rack'
 require 'rack/rewrite'
 
-module Jobim::Server
+class Jobim::Server
 
-  def self.start(opts)
-    app = Rack::Builder.new do
+  def self.start!(opts)
+    Jobim::Server.new(opts).start
+  end
+
+  attr_accessor :app, :opts
+
+  def initialize(opts, &block)
+    @opts = opts
+
+    yield self if block_given?
+  end
+
+  def app
+    @app ||= build_app(opts)
+  end
+
+  def opts
+    @opts
+  end
+
+  def start
+    puts ">>> Serving #{opts[:Dir]}"
+
+    Rack::Handler::Thin.run(app, opts) do |server|
+      if opts[:Daemonize]
+        server.pid_file = 'jobim.pid'
+        server.log_file = 'jobim.log'
+        server.daemonize
+      end
+
+      Thin::Logging.silent = opts[:Quiet]
+    end
+  end
+
+  private
+
+  def build_app(opts)
+    Rack::Builder.new do
       use Rack::Rewrite do
         rewrite(%r{(.*)}, lambda do |match, env|
           request_path = env["REQUEST_PATH"]
@@ -27,18 +63,6 @@ module Jobim::Server
       map opts[:Prefix] do
         run Rack::Directory.new(opts[:Dir])
       end
-    end
-
-    puts ">>> Serving #{opts[:Dir]}"
-
-    Rack::Handler::Thin.run(app, opts) do |server|
-      if opts[:Daemonize]
-        server.pid_file = 'jobim.pid'
-        server.log_file = 'jobim.log'
-        server.daemonize
-      end
-
-      Thin::Logging.silent = opts[:Quiet]
     end
   end
 

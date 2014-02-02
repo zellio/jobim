@@ -6,7 +6,7 @@ describe Jobim::CLI do
 
   describe "::run!" do
     before(:each) do
-      Jobim::Server.stub(:start)
+      Jobim::Server.stub(:start!)
       $stdout.stub(:write)
       $stderr.stub(:write)
     end
@@ -20,7 +20,7 @@ describe Jobim::CLI do
     end
 
     it 'starts the server' do
-      Jobim::Server.should_receive(:start)
+      Jobim::Server.should_receive(:start!)
       Jobim::CLI.run!
     end
 
@@ -31,7 +31,7 @@ describe Jobim::CLI do
 
     it 'catches RuntimeError and reports to stderr' do
       $stderr.should_receive(:write)
-      Jobim::Server.unstub(:start)
+      Jobim::Server.unstub(:start!)
       Jobim::CLI.run!("--port", "1")
     end
   end
