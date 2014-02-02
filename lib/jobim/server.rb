@@ -54,14 +54,15 @@ class Jobim::Server
   def build_app(opts)
     Rack::Builder.new do
       use Rack::Rewrite do
-        rewrite(%r{(.*)}, lambda do |match, env|
-          request_path = env["PATH_INFO"]
+        rewrite(/(.*)/, lambda do |match, env|
+          request_path = env['PATH_INFO']
 
           return match[1] if opts[:Prefix].length > request_path.length
 
-          local_path = File.join(opts[:Dir], request_path[opts[:Prefix].length..-1])
+          local_path = File.join(opts[:Dir],
+                                 request_path[opts[:Prefix].length..-1])
 
-          if File.directory?(local_path) and
+          if File.directory?(local_path) &&
               File.exists?(File.join(local_path, 'index.html'))
             File.join(request_path, 'index.html')
           else
