@@ -1,3 +1,4 @@
+require 'thin'
 require 'rack'
 require 'rack/rewrite'
 
@@ -7,7 +8,7 @@ class Jobim::Server
     Jobim::Server.new(opts).start
   end
 
-  attr_accessor :app, :opts
+  attr_accessor :app, :opts, :server
 
   def initialize(opts, &block)
     @opts = opts
@@ -23,18 +24,33 @@ class Jobim::Server
     @opts
   end
 
-  def start
-    puts ">>> Serving #{opts[:Dir]}"
+  def server
+    if @server.nil?
+      thin_app = Rack::Chunked.new(Rack::ContentLength.new(app))
+      server = ::Thin::Server.new(opts[:Host], opts[:Port], thin_app)
 
-    Rack::Handler::Thin.run(app, opts) do |server|
       if opts[:Daemonize]
         server.pid_file = 'jobim.pid'
         server.log_file = 'jobim.log'
-        server.daemonize
       end
 
-      Thin::Logging.silent = opts[:Quiet]
+      @server = server
     end
+
+    @server
+  end
+
+  def start
+    Thin::Logging.silent = opts[:Quiet]
+
+    puts ">>> Serving #{opts[:Dir]}"
+
+    server.daemonize if opts[:Daemonize]
+    server.start
+  end
+
+  def stop
+    @server.stop
   end
 
   private
