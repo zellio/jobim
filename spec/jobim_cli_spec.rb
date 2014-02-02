@@ -58,6 +58,12 @@ describe Jobim::CLI, fakefs: true do
         }.to raise_error OptionParser::InvalidArgument
       end
 
+      it 'considers 0 to be an invalid arguemnt' do
+        expect {
+          cli.parse(%w[--port 0])
+        }.to raise_error OptionParser::InvalidArgument
+      end
+
       it 'sets the binding port' do
         cli.parse(%w[--port 3333])
         expect(cli.options[:Port]).to eql 3333

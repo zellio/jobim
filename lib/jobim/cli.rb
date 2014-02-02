@@ -48,6 +48,7 @@ class Jobim::CLI
 
       o.on("-p", "--port PORT", OptionParser::DecimalInteger,
            "use PORT (default: 3000)") do |port|
+        raise OptionParser::InvalidArgument if port == 0
         options[:Port] = port
       end
 
