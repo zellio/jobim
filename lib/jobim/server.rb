@@ -62,8 +62,8 @@ class Jobim::Server
           local_path = File.join(opts[:Dir], request_path[opts[:Prefix].length..-1])
 
           if File.directory?(local_path) and
-              File.exists?(File.join(local_path, "index.html"))
-            File.join(request_path, "index.html")
+              File.exists?(File.join(local_path, 'index.html'))
+            File.join(request_path, 'index.html')
           else
             match[1]
           end
@@ -77,5 +77,4 @@ class Jobim::Server
       end
     end
   end
-
 end

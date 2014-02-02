@@ -1,7 +1,6 @@
 require 'optparse'
 
 class Jobim::CLI
-
   attr_reader :parser, :settings, :exit
 
   def self.run!(*args, &opts)
@@ -17,7 +16,7 @@ class Jobim::CLI
       $stderr.puts cli.help
 
     rescue RuntimeError => runtime_error
-      $stderr.puts ">>> Failed to start server"
+      $stderr.puts '>>> Failed to start server'
       $stderr.puts ">> #{runtime_error}"
     end
   end
@@ -32,50 +31,50 @@ class Jobim::CLI
 
   def parser
     @parser ||= OptionParser.new do |o|
-      o.banner = "Usage: jobim [OPTION]... [DIRECTORY]"
+      o.banner = 'Usage: jobim [OPTION]... [DIRECTORY]'
 
-      o.separator ""
-      o.separator "Specific options:"
+      o.separator ''
+      o.separator 'Specific options:'
 
-      o.on("-a", "--address HOST",
-           "bind to HOST address (default: 0.0.0.0)") do |host|
+      o.on('-a', '--address HOST',
+           'bind to HOST address (default: 0.0.0.0)') do |host|
         options[:Host] = host
       end
 
-      o.on "-d", "--daemonize", "Run as a daemon process" do
+      o.on '-d', '--daemonize', 'Run as a daemon process' do
         options[:Daemonize] = true
       end
 
-      o.on("-p", "--port PORT", OptionParser::DecimalInteger,
-           "use PORT (default: 3000)") do |port|
+      o.on('-p', '--port PORT', OptionParser::DecimalInteger,
+           'use PORT (default: 3000)') do |port|
         raise OptionParser::InvalidArgument if port == 0
         options[:Port] = port
       end
 
-      o.on "-P", "--prefix PATH", "Mount the app under PATH" do |path|
+      o.on '-P', '--prefix PATH', 'Mount the app under PATH' do |path|
         options[:Prefix] = path
       end
 
-      o.on "-q", "--quiet", "Silence all logging" do
+      o.on '-q', '--quiet', 'Silence all logging' do
         options[:Quiet] = true
       end
 
-      o.separator ""
-      o.separator "General options:"
+      o.separator ''
+      o.separator 'General options:'
 
-      o.on "-h", "--help", "Display this help message." do
+      o.on '-h', '--help', 'Display this help message.' do
         @exit = true
         puts help
       end
-      o.on "--version", "Display the version number" do
+      o.on '--version', 'Display the version number' do
         @exit = true
         puts "#{Jobim::VERSION}\n"
       end
 
-      o.separator ""
-      o.separator "Jobim home page: <https://github.com/zellio/jobim/>"
-      o.separator "Report bugs to: <https://github.com/zellio/jobim/issues>"
-      o.separator ""
+      o.separator ''
+      o.separator 'Jobim home page: <https://github.com/zellio/jobim/>'
+      o.separator 'Report bugs to: <https://github.com/zellio/jobim/issues>'
+      o.separator ''
     end
   end
 
@@ -87,5 +86,4 @@ class Jobim::CLI
   def help
     parser.to_s
   end
-
 end

@@ -1,7 +1,6 @@
 require 'yaml'
 
 class Jobim::Settings
-
   attr_reader :options
 
   def initialize(run_load=true)
@@ -10,12 +9,12 @@ class Jobim::Settings
 
   def options
     @options ||= {
-      :Daemonize => false,
-      :Dir => Dir.pwd,
-      :Host => '0.0.0.0',
-      :Port => 3000,
-      :Prefix => '/',
-      :Quiet => false
+      Daemonize: false,
+      Dir: Dir.pwd,
+      Host: '0.0.0.0',
+      Port: 3000,
+      Prefix: '/',
+      Quiet: false
     }
   end
 
@@ -52,9 +51,8 @@ class Jobim::Settings
       dir = dir.parent
     end
 
-    files.each {|file| self.load_file(file)}
+    files.each { |file| load_file(file) }
 
     options
   end
-
 end
