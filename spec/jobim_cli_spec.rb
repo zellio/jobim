@@ -20,17 +20,17 @@ describe Jobim::CLI, fakefs: true do
     end
 
     it 'starts the server' do
-      Jobim::Server.should_receive(:start!)
+      expect(Jobim::Server).to receive(:start!)
       Jobim::CLI.run!
     end
 
     it 'catches InvalidOption and reports to stderr' do
-      $stderr.should_receive(:write)
+      expect($stderr).to receive(:write)
       Jobim::CLI.run!("--foo")
     end
 
     it 'catches RuntimeError and reports to stderr' do
-      $stderr.should_receive(:write)
+      expect($stderr).to receive(:write)
       Jobim::Server.unstub(:start!)
       Jobim::CLI.run!("--port", "1")
     end
@@ -58,7 +58,7 @@ describe Jobim::CLI, fakefs: true do
         }.to raise_error OptionParser::InvalidArgument
       end
 
-      it 'considers 0 to be an invalid arguemnt' do
+      it 'considers 0 to be an invalid argument' do
         expect {
           cli.parse(%w[--port 0])
         }.to raise_error OptionParser::InvalidArgument
@@ -86,14 +86,14 @@ describe Jobim::CLI, fakefs: true do
 
     describe "-h, --help" do
       it 'displays the help message' do
-        $stdout.should_receive(:write).with(cli.help)
+        expect($stdout).to receive(:write).with(cli.help)
         cli.parse(%w[--help])
       end
     end
 
     describe "--version" do
-      it 'dispalys the version number' do
-        $stdout.should_receive(:write).with("#{Jobim::VERSION}\n");
+      it 'displays the version number' do
+        expect($stdout).to receive(:write).with("#{Jobim::VERSION}\n")
         cli.parse(%w[--version])
       end
     end
