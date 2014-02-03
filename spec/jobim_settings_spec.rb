@@ -65,7 +65,7 @@ describe Jobim::Settings, fakefs: true do
       expect(options[:Daemonize]).to be_true
     end
 
-    it 'only changes confiugred options' do
+    it 'only changes configured options' do
       settings.load_file('/.jobim.yml')
       expect(options[:Port]).to eql 3000
     end

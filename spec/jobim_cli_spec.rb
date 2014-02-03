@@ -58,7 +58,7 @@ describe Jobim::CLI, fakefs: true do
         }.to raise_error OptionParser::InvalidArgument
       end
 
-      it 'considers 0 to be an invalid arguemnt' do
+      it 'considers 0 to be an invalid argument' do
         expect {
           cli.parse(%w[--port 0])
         }.to raise_error OptionParser::InvalidArgument
@@ -92,7 +92,7 @@ describe Jobim::CLI, fakefs: true do
     end
 
     describe "--version" do
-      it 'dispalys the version number' do
+      it 'displays the version number' do
         expect($stdout).to receive(:write).with("#{Jobim::VERSION}\n")
         cli.parse(%w[--version])
       end
