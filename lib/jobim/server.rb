@@ -49,17 +49,13 @@ class Jobim::Server
     server.start
   end
 
-  def stop
-    @server.stop
-  end
-
   private
 
   def build_app(opts)
     Rack::Builder.new do
       use Rack::Rewrite do
         rewrite(%r{(.*)}, lambda do |match, env|
-          request_path = env["REQUEST_PATH"]
+          request_path = env["PATH_INFO"]
 
           return match[1] if opts[:Prefix].length > request_path.length
 
