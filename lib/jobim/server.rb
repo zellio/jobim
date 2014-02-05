@@ -3,7 +3,6 @@ require 'rack'
 require 'rack/rewrite'
 
 class Jobim::Server
-
   def self.start!(opts)
     Jobim::Server.new(opts).start
   end
@@ -18,10 +17,6 @@ class Jobim::Server
 
   def app
     @app ||= build_app(opts)
-  end
-
-  def opts
-    @opts
   end
 
   def server
