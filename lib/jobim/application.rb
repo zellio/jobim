@@ -1,6 +1,14 @@
+
+# Module for encapsulating the initialization and execution of the Jobim
+# application. Will probably grow in the future as the program evolves.
 module Jobim::Application
 
-  def self.run(*args, &opts)
+  # Static main method to run the jobim application. Initializes and runs the
+  # CLI and Server
+  #
+  # @param args [Array<String>] list of args passed to the application
+  # @param block [Block] dummy block object (Not used)
+  def self.run(*args, &block)
     cli = Jobim::CLI.new
     begin
       cli.parse(args)
