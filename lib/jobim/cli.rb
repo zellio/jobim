@@ -2,24 +2,23 @@ require 'optparse'
 
 class Jobim::CLI
 
-  attr_reader :parser, :settings
+  attr_reader :parser, :settings, :exit
 
   def self.run!(*args, &opts)
     cli = Jobim::CLI.new
     begin
       cli.parse(args)
 
-      exit if cli.options.nil?
+      exit if cli.exit
 
-      Jobim::Server.start cli.options
-
+      Jobim::Server.start! cli.options
     rescue OptionParser::InvalidOption => invalid_option
-      puts ">>> Error: #{invalid_option}"
-      puts cli.help
+      $stderr.puts ">>> Error: #{invalid_option}"
+      $stderr.puts cli.help
 
     rescue RuntimeError => runtime_error
-      puts ">>> Failed to start server"
-      puts ">> #{runtime_error}"
+      $stderr.puts ">>> Failed to start server"
+      $stderr.puts ">> #{runtime_error}"
     end
   end
 
@@ -47,7 +46,9 @@ class Jobim::CLI
         options[:Daemonize] = true
       end
 
-      o.on "-p", "--port PORT", "use PORT (default: 3000)" do |port|
+      o.on("-p", "--port PORT", OptionParser::DecimalInteger,
+           "use PORT (default: 3000)") do |port|
+        raise OptionParser::InvalidArgument if port == 0
         options[:Port] = port
       end
 
@@ -63,13 +64,12 @@ class Jobim::CLI
       o.separator "General options:"
 
       o.on "-h", "--help", "Display this help message." do
+        @exit = true
         puts help
-        exit
       end
       o.on "--version", "Display the version number" do
-        options[:version] = Jobim::VERSION
-        puts options[:version]
-        exit
+        @exit = true
+        puts "#{Jobim::VERSION}\n"
       end
 
       o.separator ""

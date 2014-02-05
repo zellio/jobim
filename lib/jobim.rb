@@ -1,4 +1,3 @@
-
 module Jobim
 
   require "jobim/version"

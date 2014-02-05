@@ -4,8 +4,8 @@ class Jobim::Settings
 
   attr_reader :options
 
-  def initialize
-    load
+  def initialize(run_load=true)
+    load if run_load
   end
 
   def options
@@ -35,7 +35,7 @@ class Jobim::Settings
   end
 
   def load
-    dir = Pathname('.').realpath
+    dir = Pathname(Dir.pwd)
     files = []
 
     loop do
