@@ -4,38 +4,6 @@ describe Jobim::CLI, fakefs: true do
 
   let(:cli) { Jobim::CLI.new }
 
-  describe "::run!" do
-    before(:each) do
-      Jobim::Server.stub(:start!)
-      $stdout.stub(:write)
-      $stderr.stub(:write)
-    end
-
-    it 'exits on --help command flag' do
-      expect { Jobim::CLI.run!("--help") }.to raise_error SystemExit
-    end
-
-    it 'exits on --version command flags' do
-      expect { Jobim::CLI.run!("--version") }.to raise_error SystemExit
-    end
-
-    it 'starts the server' do
-      expect(Jobim::Server).to receive(:start!)
-      Jobim::CLI.run!
-    end
-
-    it 'catches InvalidOption and reports to stderr' do
-      expect($stderr).to receive(:write)
-      Jobim::CLI.run!("--foo")
-    end
-
-    it 'catches RuntimeError and reports to stderr' do
-      expect($stderr).to receive(:write)
-      Jobim::Server.unstub(:start!)
-      Jobim::CLI.run!("--port", "1")
-    end
-  end
-
   describe "#parser" do
     describe "-a, --address" do
       it 'sets the host address' do

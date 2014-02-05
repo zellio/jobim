@@ -7,4 +7,4 @@ $:.unshift File.expand_path("../../lib", file)
 
 require 'jobim'
 
-Jobim::CLI.run!(*ARGV)
+Jobim::Application.run(*ARGV)
