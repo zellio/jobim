@@ -2,8 +2,16 @@ require 'thin'
 require 'rack'
 require 'rack/rewrite'
 
+# Http Server container class. Holds the Rack application definition and
+# routing tables. Currently explicity leverages the Thin::Server for startup
+# and operations. This should change
 class Jobim::Server
 
+  # Static utility method for starting up a new instance of the Jobim::Server
+  # class.
+  #
+  # @param opts [Hash] option hash for server configuration
+  # @return [Jobim::Server] new running server instance
   def self.start!(opts)
     Jobim::Server.new(opts).start
   end
@@ -16,6 +24,13 @@ class Jobim::Server
     yield self if block_given?
   end
 
+  # Accessor for the server application.
+  #
+  # NB. This has been split into a memoized called to `build_app` becuase of
+  # the way the Rack::Builder class handles scope in the context of
+  # instance_eval instead of yield
+  #
+  # @return [Rack::Builder]
   def app
     @app ||= build_app(opts)
   end
@@ -24,6 +39,12 @@ class Jobim::Server
     @opts
   end
 
+  # Memoized accessor method for the internal server instance.
+  #
+  # This is currently explicitly a Thin::Server, possibly should change into a
+  # more generic mthod.
+  #
+  # @return [Thin::Server]
   def server
     if @server.nil?
       thin_app = Rack::Chunked.new(Rack::ContentLength.new(app))
