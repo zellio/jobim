@@ -4,7 +4,7 @@ require 'rack/rewrite'
 
 # Http Server container class. Holds the Rack application definition and
 # routing tables. Currently explicity leverages the Thin::Server for startup
-# and operations. This should change
+# and operations. This should probably change.
 class Jobim::Server
 
   # Static utility method for starting up a new instance of the Jobim::Server

@@ -1,3 +1,4 @@
+# Jobim application container
 module Jobim
 
   require "jobim/version"
