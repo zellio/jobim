@@ -81,7 +81,7 @@ class Jobim::CLI
   # trailing value after parsing is completed it is treated as the :Dir
   # option.
   #
-  # @param [Array<String] args to be paresed
+  # @param [Array<String>] args to be paresed
   # @return [NilClass] sentitinal nil value
   def parse(args)
     parser.parse!(args)

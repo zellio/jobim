@@ -61,6 +61,8 @@ class Jobim::Server
     @server
   end
 
+  # Pass through delegation to the internal server start method. Handles
+  # daemonizing the server before starting it if nessesary.
   def start
     Thin::Logging.silent = opts[:Quiet]
 
@@ -72,6 +74,8 @@ class Jobim::Server
 
   private
 
+  # Method to create a new instance of the Rack application. This is done for
+  # scoping reason.
   def build_app(opts)
     Rack::Builder.new do
       use Rack::Rewrite do
