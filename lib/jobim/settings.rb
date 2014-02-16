@@ -21,7 +21,11 @@ class Jobim::Settings
   def load_file(file)
     opts = YAML.load_file(file)
     opts.keys.each do |key|
-      opts[(key.to_s.capitalize.to_sym rescue key) || key] = opts.delete(key)
+      begin
+        opts[key.to_s.capitalize.to_sym || key] = opts.delete(key)
+      rescue
+        opts[key] = opts.delete(key)
+      end
     end
 
     if opts[:Dir]
