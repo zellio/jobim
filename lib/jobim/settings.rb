@@ -10,24 +10,24 @@ class Jobim::Settings
 
   def options
     @options ||= {
-      :Daemonize => false,
-      :Dir => Dir.pwd,
-      :Host => '0.0.0.0',
-      :Port => 3000,
-      :Prefix => '/',
-      :Quiet => false
+      daemonize: false,
+      dir: Dir.pwd,
+      host: '0.0.0.0',
+      port: 3000,
+      prefix: '/',
+      quiet: false
     }
   end
 
   def load_file(file)
     opts = YAML.load_file(file)
     opts.keys.each do |key|
-      opts[(key.to_s.capitalize.to_sym rescue key) || key] = opts.delete(key)
+      opts[(key.to_s.downcase.to_sym rescue key) || key] = opts.delete(key)
     end
 
-    if opts[:Dir]
-      unless Pathname.new(opts[:Dir]).absolute?
-        opts[:Dir] = File.expand_path("../#{opts[:Dir]}", file)
+    if opts[:dir]
+      unless Pathname.new(opts[:dir]).absolute?
+        opts[:dir] = File.expand_path("../#{opts[:dir]}", file)
       end
     end
 

@@ -8,14 +8,14 @@ describe Jobim::CLI, fakefs: true do
     describe "-a, --address" do
       it 'sets the host address' do
         cli.parse(%w[--address foo])
-        expect(cli.options[:Host]).to eql 'foo'
+        expect(cli.options[:host]).to eql 'foo'
       end
     end
 
     describe "-d, --daemonize" do
       it 'sets the daemonize flag' do
         cli.parse(%w[--daemonize])
-        expect(cli.options[:Host]).to be_true
+        expect(cli.options[:host]).to be_true
       end
     end
 
@@ -34,21 +34,21 @@ describe Jobim::CLI, fakefs: true do
 
       it 'sets the binding port' do
         cli.parse(%w[--port 3333])
-        expect(cli.options[:Port]).to eql 3333
+        expect(cli.options[:port]).to eql 3333
       end
     end
 
     describe "-P, --prefix" do
       it 'sets the path to mount the app under' do
         cli.parse(%w[--prefix /foo])
-        expect(cli.options[:Prefix]).to eql '/foo'
+        expect(cli.options[:prefix]).to eql '/foo'
       end
     end
 
     describe "-q, --quiet" do
       it 'sets the quiet flag' do
         cli.parse(%w[--quiet])
-        expect(cli.options[:Quiet]).to be_true
+        expect(cli.options[:quiet]).to be_true
       end
     end
 
@@ -77,7 +77,7 @@ describe Jobim::CLI, fakefs: true do
     it 'sets the Directory option to its trailing argument' do
       args = %w[dir]
       cli.parse(args)
-      expect(cli.options[:Dir]).to eql '/dir'
+      expect(cli.options[:dir]).to eql '/dir'
     end
   end
 

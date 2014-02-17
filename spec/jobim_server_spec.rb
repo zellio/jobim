@@ -19,7 +19,7 @@ describe Jobim::Server, fakefs: true do
     before(:each) { $stdout.stub(:write) }
 
     let(:server) {
-      settings.options[:Dir] = '/web_app'
+      settings.options[:dir] = '/web_app'
       Jobim::Server.new(settings.options)
     }
 
@@ -46,15 +46,15 @@ describe Jobim::Server, fakefs: true do
 
   describe 'server' do
     let(:server) {
-      settings.options[:Daemonize] = true
+      settings.options[:daemonize] = true
       Jobim::Server.new(settings.options)
     }
 
-    it 'sets server.pid_file if :Daemonize is true' do
+    it 'sets server.pid_file if :daemonize is true' do
       expect(server.server.pid_file).to eql('jobim.pid')
     end
 
-    it 'sets server.log_file if :Daemonize is true' do
+    it 'sets server.log_file if :daemonize is true' do
       expect(server.server.log_file).to eql('jobim.log')
     end
   end
