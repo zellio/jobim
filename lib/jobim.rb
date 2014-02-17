@@ -3,4 +3,5 @@ module Jobim
   require 'jobim/settings'
   require 'jobim/server'
   require 'jobim/cli'
+  require 'jobim/application'
 end
