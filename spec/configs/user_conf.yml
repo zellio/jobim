@@ -1,4 +1,4 @@
 ---
-:Port: 1234
-:Dir: 'public_html'
-:Prefix: '/web_root'
+:port: 1234
+:dir: 'public_html'
+:prefix: '/web_root'

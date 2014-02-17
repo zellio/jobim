@@ -27,9 +27,9 @@ class Jobim::Server
   def server
     if @server.nil?
       thin_app = Rack::Chunked.new(Rack::ContentLength.new(app))
-      server = ::Thin::Server.new(opts[:Host], opts[:Port], thin_app)
+      server = ::Thin::Server.new(opts[:host], opts[:port], thin_app)
 
-      if opts[:Daemonize]
+      if opts[:daemonize]
         server.pid_file = 'jobim.pid'
         server.log_file = 'jobim.log'
       end
@@ -41,11 +41,11 @@ class Jobim::Server
   end
 
   def start
-    Thin::Logging.silent = opts[:Quiet]
+    Thin::Logging.silent = opts[:quiet]
 
-    puts ">>> Serving #{opts[:Dir]}"
+    puts ">>> Serving #{opts[:dir]}"
 
-    server.daemonize if opts[:Daemonize]
+    server.daemonize if opts[:daemonize]
     server.start
   end
 
@@ -57,9 +57,9 @@ class Jobim::Server
         rewrite(%r{(.*)}, lambda do |match, env|
           request_path = env["PATH_INFO"]
 
-          return match[1] if opts[:Prefix].length > request_path.length
+          return match[1] if opts[:prefix].length > request_path.length
 
-          local_path = File.join(opts[:Dir], request_path[opts[:Prefix].length..-1])
+          local_path = File.join(opts[:dir], request_path[opts[:prefix].length..-1])
 
           if File.directory?(local_path) and
               File.exists?(File.join(local_path, "index.html"))
@@ -72,8 +72,8 @@ class Jobim::Server
 
       use Rack::CommonLogger, STDOUT
 
-      map opts[:Prefix] do
-        run Rack::Directory.new(opts[:Dir])
+      map opts[:prefix] do
+        run Rack::Directory.new(opts[:dir])
       end
     end
   end

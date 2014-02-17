@@ -21,25 +21,25 @@ class Jobim::CLI
 
       o.on("-a", "--address HOST",
            "bind to HOST address (default: 0.0.0.0)") do |host|
-        options[:Host] = host
+        options[:host] = host
       end
 
       o.on "-d", "--daemonize", "Run as a daemon process" do
-        options[:Daemonize] = true
+        options[:daemonize] = true
       end
 
       o.on("-p", "--port PORT", OptionParser::DecimalInteger,
            "use PORT (default: 3000)") do |port|
         raise OptionParser::InvalidArgument if port == 0
-        options[:Port] = port
+        options[:port] = port
       end
 
       o.on "-P", "--prefix PATH", "Mount the app under PATH" do |path|
-        options[:Prefix] = path
+        options[:prefix] = path
       end
 
       o.on "-q", "--quiet", "Silence all logging" do
-        options[:Quiet] = true
+        options[:quiet] = true
       end
 
       o.separator ""
@@ -63,7 +63,7 @@ class Jobim::CLI
 
   def parse(args)
     parser.parse!(args)
-    options[:Dir] = File.expand_path(args[0]) if args.length == 1
+    options[:dir] = File.expand_path(args[0]) if args.length == 1
   end
 
   def help
