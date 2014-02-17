@@ -1,10 +1,9 @@
 require 'yaml'
 
 class Jobim::Settings
-
   attr_reader :options
 
-  def initialize(run_load=true)
+  def initialize(run_load = true)
     load if run_load
   end
 
@@ -22,7 +21,11 @@ class Jobim::Settings
   def load_file(file)
     opts = YAML.load_file(file)
     opts.keys.each do |key|
-      opts[(key.to_s.downcase.to_sym rescue key) || key] = opts.delete(key)
+      begin
+        opts[key.to_s.downcase.to_sym || key] = opts.delete(key)
+      rescue
+        opts[key] = opts.delete(key)
+      end
     end
 
     if opts[:dir]
@@ -52,9 +55,8 @@ class Jobim::Settings
       dir = dir.parent
     end
 
-    files.each {|file| self.load_file(file)}
+    files.each { |file| load_file(file) }
 
     options
   end
-
 end

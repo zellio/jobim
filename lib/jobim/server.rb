@@ -3,7 +3,6 @@ require 'rack'
 require 'rack/rewrite'
 
 class Jobim::Server
-
   def self.start!(opts)
     Jobim::Server.new(opts).start
   end
@@ -18,10 +17,6 @@ class Jobim::Server
 
   def app
     @app ||= build_app(opts)
-  end
-
-  def opts
-    @opts
   end
 
   def server
@@ -54,16 +49,17 @@ class Jobim::Server
   def build_app(opts)
     Rack::Builder.new do
       use Rack::Rewrite do
-        rewrite(%r{(.*)}, lambda do |match, env|
-          request_path = env["PATH_INFO"]
+        rewrite(/(.*)/, lambda do |match, env|
+          request_path = env['PATH_INFO']
 
           return match[1] if opts[:prefix].length > request_path.length
 
-          local_path = File.join(opts[:dir], request_path[opts[:prefix].length..-1])
+          local_path = File.join(opts[:dir],
+                                 request_path[opts[:prefix].length..-1])
 
-          if File.directory?(local_path) and
-              File.exists?(File.join(local_path, "index.html"))
-            File.join(request_path, "index.html")
+          if File.directory?(local_path) &&
+              File.exists?(File.join(local_path, 'index.html'))
+            File.join(request_path, 'index.html')
           else
             match[1]
           end
@@ -77,5 +73,4 @@ class Jobim::Server
       end
     end
   end
-
 end

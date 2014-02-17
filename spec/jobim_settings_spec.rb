@@ -4,24 +4,24 @@ describe Jobim::Settings, fakefs: true do
 
   before(:each) do
     unless example.metadata[:no_conf]
-      Dir.mkdir("/home")
-      Dir.mkdir("/home/jobim")
-      Dir.mkdir("/home/jobim/public_html")
-      Dir.mkdir("/home/jobim/projects");
+      Dir.mkdir('/home')
+      Dir.mkdir('/home/jobim')
+      Dir.mkdir('/home/jobim/public_html')
+      Dir.mkdir('/home/jobim/projects')
 
-      Dir.chdir("/home/jobim/projects");
+      Dir.chdir('/home/jobim/projects')
 
       file = RealFile.expand_path(__FILE__)
-      config_dir = RealFile.expand_path("../configs", file)
+      config_dir = RealFile.expand_path('../configs', file)
 
-      r_cfg = RealFile.read(RealFile.expand_path("root_conf.yml", config_dir))
-      u_cfg = RealFile.read(RealFile.expand_path("user_conf.yml", config_dir))
-      l_cfg = RealFile.read(RealFile.expand_path("local_conf.yml", config_dir))
+      r_cfg = RealFile.read(RealFile.expand_path('root_conf.yml', config_dir))
+      u_cfg = RealFile.read(RealFile.expand_path('user_conf.yml', config_dir))
+      l_cfg = RealFile.read(RealFile.expand_path('local_conf.yml', config_dir))
 
-      File.open("/.jobim.yml", "w") {|file| file.write r_cfg }
-      File.open("/home/jobim/.jobim.yaml", "w") {|file| file.write u_cfg }
-      File.open("/home/jobim/projects/.jobim.yaml", "w") do |file|
-        file.write l_cfg
+      File.open('/.jobim.yml', 'w') { |f| f.write r_cfg }
+      File.open('/home/jobim/.jobim.yaml', 'w') { |f| f.write u_cfg }
+      File.open('/home/jobim/projects/.jobim.yaml', 'w') do |f|
+        f.write l_cfg
       end
     end
   end
@@ -29,11 +29,11 @@ describe Jobim::Settings, fakefs: true do
   let(:settings) { Jobim::Settings.new(false) }
   let(:options) { settings.options }
 
-  describe "#initialize" do
+  describe '#initialize' do
 
   end
 
-  describe "#options", no_conf: true do
+  describe '#options', no_conf: true do
     it 'defaults :daemonize to false' do
       expect(options[:daemonize]).to be_false
     end
@@ -59,9 +59,9 @@ describe Jobim::Settings, fakefs: true do
     end
   end
 
-  describe "#load_file" do
+  describe '#load_file' do
     it 'loads config data into #options' do
-      settings.load_file("/.jobim.yml")
+      settings.load_file('/.jobim.yml')
       expect(options[:daemonize]).to be_true
     end
 
@@ -72,7 +72,7 @@ describe Jobim::Settings, fakefs: true do
 
     it 'expands directories relative to the config file location' do
       settings.load_file('/home/jobim/.jobim.yaml')
-      expect(options[:dir]).to eql "/home/jobim/public_html"
+      expect(options[:dir]).to eql '/home/jobim/public_html'
     end
 
     it 'overrides only specified options' do
@@ -81,7 +81,7 @@ describe Jobim::Settings, fakefs: true do
     end
   end
 
-  describe "#load" do
+  describe '#load' do
     before(:each) { settings.load }
 
     it 'loads all config files from CWD to root' do
