@@ -1,5 +1,13 @@
+# Application container for initialization and execution of Jobim's
+# resources. Generates a new `Jobim::CLI` instance, and then passes it off to
+# a `Jobim::Server`. Good chance this will change in the future.
 module Jobim::Application
-  def self.run(*args, &opts)
+
+  # Initializes and runs the CLI and Server
+  #
+  # @param args [Array<String>] list of args passed to the application
+  # @param block [Block] dummy block object (Not used)
+  def self.run(*args, &block)
     cli = Jobim::CLI.new
     begin
       cli.parse(args)
