@@ -6,7 +6,6 @@ require 'rack/rewrite'
 # tables. Class explicitly leverages `::Thin::Server` to create the HTTP
 # server, this should possibly be changed.
 class Jobim::Server
-
   # Utitly wrapper to create and start a new `Jobim::Server` instnace.
   #
   # @param opts [Hash] option hash for server configuration

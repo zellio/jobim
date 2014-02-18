@@ -2,7 +2,6 @@
 # resources. Generates a new `Jobim::CLI` instance, and then passes it off to
 # a `Jobim::Server`. Good chance this will change in the future.
 module Jobim::Application
-
   # Initializes and runs the CLI and Server
   #
   # @param args [Array<String>] list of args passed to the application
