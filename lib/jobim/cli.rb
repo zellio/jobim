@@ -1,29 +1,27 @@
 require 'optparse'
 
 # Command line interface for the Jobim application. Utilizes optparse to
-# manage user arguments and populates a Jobim::Settings object with those
-# data.
+# manage user arguments and populates a `Jobim::Settings` object.
 class Jobim::CLI
 
   attr_reader :parser, :settings, :exit
 
-  # Memoized accessor for the settings object. Lazily initializes a new
-  # Jobim::Settings object when accessed.
+  # Memoized, lazy accessor for the settings object.
   #
   # @return [Jobim::Settings]
   def settings
     @settings ||= Jobim::Settings.new
   end
 
-  # Accessor method for the hash contained in the owned Jobim::Settings
-  # object. Directly delegates access to the value returned by #settings
+  # Accessor method for the hash contained in the owned `Jobim::Settings`
+  # object. Directly delegates access to the value returned by `#settings`.
   #
-  # @return [Hash]
+  # @return [Hash] the option hash
   def options
     settings.options
   end
 
-  # Memoized accessor for the OptionParser object. It is generated only when
+  # Memoized accessor for the `OptionParser` object. It is generated only when
   # called upon. See the readme for information about the command flags.
   #
   # @return [OptionParser]
@@ -76,9 +74,9 @@ class Jobim::CLI
     end
   end
 
-  # Runs the parse method of the value returned by the #parser method. This is
-  # done in a manner destructive to the passed args Array. If there is a
-  # trailing value after parsing is completed it is treated as the :Dir
+  # Runs the parse method of the value returned by the `#parser` method. This
+  # is done in a manner destructive to the passed args `Array`. If there is a
+  # trailing value after parsing is completed it is treated as the `:dir`
   # option.
   #
   # @param [Array<String>] args to be paresed
@@ -90,7 +88,7 @@ class Jobim::CLI
     nil
   end
 
-  # Returns the help documentation of the program
+  # Help documentation of the program.
   #
   # @return [String]
   def help

@@ -1,10 +1,9 @@
-
-# Module for encapsulating the initialization and execution of the Jobim
-# application. Will probably grow in the future as the program evolves.
+# Application container for initialization and execution of Jobim's
+# resources. Generates a new `Jobim::CLI` instance, and then passes it off to
+# a `Jobim::Server`. Good chance this will change in the future.
 module Jobim::Application
 
-  # Static main method to run the jobim application. Initializes and runs the
-  # CLI and Server
+  # Initializes and runs the CLI and Server
   #
   # @param args [Array<String>] list of args passed to the application
   # @param block [Block] dummy block object (Not used)

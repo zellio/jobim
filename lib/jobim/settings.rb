@@ -1,7 +1,7 @@
 require 'yaml'
 
-# Class for mangaging applications settings and configuration. Handles sane
-# defaults and the loading / merging of configuration from files.
+# Manages applications settings and configuration. Handles sane defaults and
+# the loading / merging of configuration from files.
 #
 # Should possibly be made to be closer to a pass through to the hash class or
 # to have better delegation and alleviate the need for @options
@@ -13,7 +13,7 @@ class Jobim::Settings
     load if run_load
   end
 
-  # Option hash with memoized defualts
+  # Option hash with memoized defualts.
   #
   # @return [Hash]
   def options
@@ -28,7 +28,7 @@ class Jobim::Settings
   end
 
   # Loads a configuration file in the yaml format and merges the changes up
-  # into the @options hash
+  # into the `@options` hash.
   #
   # @param [String] file path to the configuration file
   # @return [Hash] the options hash
@@ -47,7 +47,11 @@ class Jobim::Settings
     options.merge!(opts)
   end
 
-  # Loads all the of the configuration files from the CWD up.
+  # Loads all the of the configuration files from the CWD up. This should
+  # probably be changed to take an argument for dir instead of it always using
+  # working directory.
+  #
+  # @return [Hash] the options hash
   def load
     dir = Pathname(Dir.pwd)
     files = []
