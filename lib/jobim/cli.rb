@@ -12,14 +12,6 @@ class Jobim::CLI
     @settings ||= Jobim::Settings.new
   end
 
-  # Accessor method for the hash contained in the owned `Jobim::Settings`
-  # object. Directly delegates access to the value returned by `#settings`.
-  #
-  # @return [Hash] the option hash
-  def options
-    settings.options
-  end
-
   # Memoized accessor for the `OptionParser` object. It is generated only when
   # called upon. See the readme for information about the command flags.
   #
@@ -33,25 +25,25 @@ class Jobim::CLI
 
       o.on('-a', '--address HOST',
            'bind to HOST address (default: 0.0.0.0)') do |host|
-        options[:host] = host
+        settings.host = host
       end
 
       o.on '-d', '--daemonize', 'Run as a daemon process' do
-        options[:daemonize] = true
+        settings.daemonize = true
       end
 
       o.on('-p', '--port PORT', OptionParser::DecimalInteger,
            'use PORT (default: 3000)') do |port|
         fail OptionParser::InvalidArgument if port == 0
-        options[:port] = port
+        settings.port = port
       end
 
       o.on '-P', '--prefix PATH', 'Mount the app under PATH' do |path|
-        options[:prefix] = path
+        settings.prefix = path
       end
 
       o.on '-q', '--quiet', 'Silence all logging' do
-        options[:quiet] = true
+        settings.quiet = true
       end
 
       o.separator ''
@@ -82,7 +74,7 @@ class Jobim::CLI
   # @return [NilClass] sentitinal nil value
   def parse(args)
     parser.parse!(args)
-    options[:dir] = File.expand_path(args[0]) if args.length == 1
+    settings.dir = File.expand_path(args[0]) if args.length == 1
 
     nil
   end

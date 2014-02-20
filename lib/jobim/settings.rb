@@ -2,35 +2,43 @@ require 'yaml'
 
 # Manages applications settings and configuration. Handles sane defaults and
 # the loading / merging of configuration from files.
-#
-# Should possibly be made to be closer to a pass through to the hash class or
-# to have better delegation and alleviate the need for @options
 class Jobim::Settings
-  attr_reader :options
+  VALID_KEYS = [:daemonize, :dir, :host, :port, :prefix, :quiet]
+
+  attr_accessor *VALID_KEYS
 
   def initialize(run_load = true)
-    load if run_load
-  end
-
-  # Option hash with memoized defualts.
-  #
-  # @return [Hash]
-  def options
-    @options ||= {
+    update(
       daemonize: false,
       dir: Dir.pwd,
       host: '0.0.0.0',
       port: 3000,
       prefix: '/',
       quiet: false
-    }
+    )
+
+    load if run_load
   end
 
-  # Loads a configuration file in the yaml format and merges the changes up
-  # into the `@options` hash.
+  def [](key)
+    send(key) if VALID_KEYS.include?(key)
+  end
+
+  def []=(key, val)
+    send("#{key}=".to_sym, val) if VALID_KEYS.include?(key)
+  end
+
+  def update(opts)
+    VALID_KEYS.each do |key|
+      self[key] = opts[key] unless opts[key].nil?
+    end
+    self
+  end
+
+  # Loads a configuration file in the yaml format into the settings object.
   #
   # @param [String] file path to the configuration file
-  # @return [Hash] the options hash
+  # @return [Jobim::Settings] self
   def load_file(file)
     opts = YAML.load_file(file)
     opts.keys.each do |key|
@@ -47,14 +55,14 @@ class Jobim::Settings
       end
     end
 
-    options.merge!(opts)
+    update(opts)
   end
 
   # Loads all the of the configuration files from the CWD up. This should
   # probably be changed to take an argument for dir instead of it always using
   # working directory.
   #
-  # @return [Hash] the options hash
+  # @return [Jobim::Settings] self
   def load
     dir = Pathname(Dir.pwd)
     files = []
@@ -75,6 +83,6 @@ class Jobim::Settings
 
     files.each { |file| load_file(file) }
 
-    options
+    self
   end
 end
