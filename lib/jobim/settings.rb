@@ -20,18 +20,16 @@ class Jobim::Settings
     load if run_load
   end
 
-  def [](key)
-    send(key) if VALID_KEYS.include?(key)
-  end
+  # def [](key)
+  #   send(key) if VALID_KEYS.include?(key)
+  # end
 
-  def []=(key, val)
-    send("#{key}=".to_sym, val) if VALID_KEYS.include?(key)
-  end
+  # def []=(key, val)
+  #   send("#{key}=".to_sym, val) if VALID_KEYS.include?(key)
+  # end
 
   def update(opts)
-    VALID_KEYS.each do |key|
-      self[key] = opts[key] unless opts[key].nil?
-    end
+    VALID_KEYS.each { |key| send("#{key}=", opts[key]) unless opts[key].nil? }
     self
   end
 

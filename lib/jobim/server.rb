@@ -14,10 +14,10 @@ class Jobim::Server
     Jobim::Server.new(opts).start
   end
 
-  attr_accessor :app, :opts, :server
+  attr_accessor :app, :settings, :server
 
-  def initialize(opts, &block)
-    @opts = opts
+  def initialize(settings, &block)
+    @settings = settings
 
     yield self if block_given?
   end
@@ -30,7 +30,7 @@ class Jobim::Server
   #
   # @return [Rack::Builder]
   def app
-    @app ||= build_app(opts)
+    @app ||= build_app(settings)
   end
 
   # Memoized accessor for the internal server instance.
@@ -42,9 +42,9 @@ class Jobim::Server
   def server
     if @server.nil?
       thin_app = Rack::Chunked.new(Rack::ContentLength.new(app))
-      server = ::Thin::Server.new(opts[:host], opts[:port], thin_app)
+      server = ::Thin::Server.new(settings.host, settings.port, thin_app)
 
-      if opts[:daemonize]
+      if settings.daemonize
         server.pid_file = 'jobim.pid'
         server.log_file = 'jobim.log'
       end
@@ -58,11 +58,11 @@ class Jobim::Server
   # Pass through delegation to the internal server object's start method.
   # Handles daemonizing the server before starting it if nessesary.
   def start
-    Thin::Logging.silent = opts[:quiet]
+    Thin::Logging.silent = settings.quiet
 
-    puts ">>> Serving #{opts[:dir]}"
+    puts ">>> Serving #{settings.dir}"
 
-    server.daemonize if opts[:daemonize]
+    server.daemonize if settings.daemonize
     server.start
   end
 
@@ -81,10 +81,10 @@ class Jobim::Server
         rewrite(/(.*)/, lambda do |match, env|
           request_path = env['PATH_INFO']
 
-          return match[1] if opts[:prefix].length > request_path.length
+          return match[1] if opts.prefix.length > request_path.length
 
-          local_path = File.join(opts[:dir],
-                                 request_path[opts[:prefix].length..-1])
+          local_path = File.join(opts.dir,
+                                 request_path[opts.prefix.length..-1])
 
           if File.directory?(local_path) &&
               File.exists?(File.join(local_path, 'index.html'))
@@ -97,8 +97,8 @@ class Jobim::Server
 
       use Rack::CommonLogger, STDOUT
 
-      map opts[:prefix] do
-        run Rack::Directory.new(opts[:dir])
+      map opts.prefix do
+        run Rack::Directory.new(opts.dir)
       end
     end
   end
