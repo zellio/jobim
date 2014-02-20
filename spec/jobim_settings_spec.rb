@@ -33,27 +33,27 @@ describe Jobim::Settings, fakefs: true do
   end
 
   describe 'options', no_conf: true do
-    it 'defaults :daemonize to false' do
+    it 'defaults daemonize to false' do
       expect(settings.daemonize).to be_false
     end
 
-    it 'defaults :dir to current working directory' do
+    it 'defaults dir to current working directory' do
       expect(settings.dir).to eql Dir.pwd
     end
 
-    it 'defaults :host to 0.0.0.0' do
+    it 'defaults host to 0.0.0.0' do
       expect(settings.host).to eql '0.0.0.0'
     end
 
-    it 'defaults :port to 3000' do
+    it 'defaults port to 3000' do
       expect(settings.port).to eql 3000
     end
 
-    it 'defaults :prefix to /' do
+    it 'defaults prefix to /' do
       expect(settings.prefix).to eql '/'
     end
 
-    it 'defaults :quiet to false' do
+    it 'defaults quiet to false' do
       expect(settings.quiet).to be_false
     end
   end
