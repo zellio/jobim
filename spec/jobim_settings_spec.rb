@@ -27,57 +27,56 @@ describe Jobim::Settings, fakefs: true do
   end
 
   let(:settings) { Jobim::Settings.new(false) }
-  let(:options) { settings.options }
 
   describe '#initialize' do
 
   end
 
-  describe '#options', no_conf: true do
+  describe 'options', no_conf: true do
     it 'defaults :daemonize to false' do
-      expect(options[:daemonize]).to be_false
+      expect(settings.daemonize).to be_false
     end
 
     it 'defaults :dir to current working directory' do
-      expect(options[:dir]).to eql Dir.pwd
+      expect(settings.dir).to eql Dir.pwd
     end
 
     it 'defaults :host to 0.0.0.0' do
-      expect(options[:host]).to eql '0.0.0.0'
+      expect(settings.host).to eql '0.0.0.0'
     end
 
     it 'defaults :port to 3000' do
-      expect(options[:port]).to eql 3000
+      expect(settings.port).to eql 3000
     end
 
     it 'defaults :prefix to /' do
-      expect(options[:prefix]).to eql '/'
+      expect(settings.prefix).to eql '/'
     end
 
     it 'defaults :quiet to false' do
-      expect(options[:quiet]).to be_false
+      expect(settings.quiet).to be_false
     end
   end
 
   describe '#load_file' do
-    it 'loads config data into #options' do
+    it 'loads config data into settings' do
       settings.load_file('/.jobim.yml')
-      expect(options[:daemonize]).to be_true
+      expect(settings.daemonize).to be_true
     end
 
     it 'only changes configured options' do
       settings.load_file('/.jobim.yml')
-      expect(options[:port]).to eql 3000
+      expect(settings.port).to eql 3000
     end
 
     it 'expands directories relative to the config file location' do
       settings.load_file('/home/jobim/.jobim.yaml')
-      expect(options[:dir]).to eql '/home/jobim/public_html'
+      expect(settings.dir).to eql '/home/jobim/public_html'
     end
 
     it 'overrides only specified options' do
       settings.load_file('/home/jobim/.jobim.yaml')
-      expect(options[:quiet]).to be_false
+      expect(settings.quiet).to be_false
     end
   end
 
@@ -85,17 +84,17 @@ describe Jobim::Settings, fakefs: true do
     before(:each) { settings.load }
 
     it 'loads all config files from CWD to root' do
-      expect(options[:daemonize]).to be_true
-      expect(options[:port]).to eql 1234
-      expect(options[:dir]).to eql '/home/jobim/public_html'
+      expect(settings.daemonize).to be_true
+      expect(settings.port).to eql 1234
+      expect(settings.dir).to eql '/home/jobim/public_html'
     end
 
     it 'overrides previous directory options with current ones' do
-      expect(options[:dir]).to eql '/home/jobim/public_html'
+      expect(settings.dir).to eql '/home/jobim/public_html'
     end
 
     it 'will check for yaml files only if there is no yml file' do
-      expect(options[:prefix]).to eql '/jobim'
+      expect(settings.prefix).to eql '/jobim'
     end
   end
 
