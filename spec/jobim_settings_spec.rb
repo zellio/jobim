@@ -83,7 +83,7 @@ describe Jobim::Settings, fakefs: true do
   describe '#load' do
     before(:each) { settings.load }
 
-    it 'loads all config files from CWD to root' do
+    it 'loads all config files from CWD to root by default' do
       expect(settings.daemonize).to be_true
       expect(settings.port).to eql 1234
       expect(settings.dir).to eql '/home/jobim/public_html'
@@ -95,6 +95,18 @@ describe Jobim::Settings, fakefs: true do
 
     it 'will check for yaml files only if there is no yml file' do
       expect(settings.prefix).to eql '/jobim'
+    end
+
+    it 'can handle absolute directories' do
+      expect(settings.daemonize).to be_true
+      expect(settings.port).to eql 1234
+      expect(settings.dir).to eql '/home/jobim/public_html'
+    end
+
+    it 'can handle relative directories' do
+      settings.load('../')
+      expect(settings.prefix).to eql '/web_root'
+      expect(settings.port).to eql 1234
     end
   end
 

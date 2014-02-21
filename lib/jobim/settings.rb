@@ -54,7 +54,7 @@ class Jobim::Settings
   # @param [String] directory to load files from (defaults to Dir.pwd)
   # @return [Jobim::Settings] self
   def load(dir = Dir.pwd)
-    dir = Pathname(dir)
+    dir = Pathname(File.expand_path(dir))
     files = []
 
     loop do
