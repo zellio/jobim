@@ -17,8 +17,10 @@ describe Jobim::Settings, fakefs: true do
       r_cfg = RealFile.read(RealFile.expand_path('root_conf.yml', config_dir))
       u_cfg = RealFile.read(RealFile.expand_path('user_conf.yml', config_dir))
       l_cfg = RealFile.read(RealFile.expand_path('local_conf.yml', config_dir))
+      e_cfg = RealFile.read(RealFile.expand_path('empty_conf.yml', config_dir))
 
       File.open('/.jobim.yml', 'w') { |f| f.write r_cfg }
+      File.open('/home/.jobim.yml', 'w') { |f| f.write e_cfg }
       File.open('/home/jobim/.jobim.yaml', 'w') { |f| f.write u_cfg }
       File.open('/home/jobim/projects/.jobim.yaml', 'w') do |f|
         f.write l_cfg
@@ -78,6 +80,10 @@ describe Jobim::Settings, fakefs: true do
     it 'overrides only specified options' do
       settings.load_file('/home/jobim/.jobim.yaml')
       expect(options[:quiet]).to be_false
+    end
+
+    it 'handles empty configuration files' do
+      expect { settings.load_file('/home/.jobim.yml') }.to_not raise_error
     end
   end
 

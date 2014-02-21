@@ -32,7 +32,7 @@ class Jobim::Settings
   # @param [String] file path to the configuration file
   # @return [Hash] the options hash
   def load_file(file)
-    opts = YAML.load_file(file)
+    opts = YAML.load_file(file) || {}
     opts.keys.each do |key|
       begin
         opts[key.to_s.downcase.to_sym || key] = opts.delete(key)
