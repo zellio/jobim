@@ -13,7 +13,7 @@ describe Jobim::Server, fakefs: true do
   end
 
   let(:index)    { "<!DOCTYPE html>\n<html />\n" }
-  let(:settings) { Jobim::Settings.new }
+  let(:settings) { Jobim::CLI.new.settings }
 
   describe 'app', rack_test: true do
     before(:each) { $stdout.stub(:write) }

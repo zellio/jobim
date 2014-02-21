@@ -3,13 +3,28 @@ require 'optparse'
 # Command line interface for the Jobim application. Utilizes optparse to
 # manage user arguments and populates a `Jobim::Settings` object.
 class Jobim::CLI
-  attr_reader :parser, :settings, :exit
+  attr_reader :parser, :settings, :exit, :options
 
   # Memoized, lazy accessor for the settings object.
   #
   # @return [Jobim::Settings]
   def settings
-    @settings ||= Jobim::Settings.new
+    @settings ||= Jobim::Settings.new(options)
+  end
+
+  # Memoized, lazy accessor for the options hash.
+  #
+  # @return [Hash] options generated from #parse
+  def options
+    @options ||= {
+      :daemonize => false,
+      :dir => Dir.pwd,
+      :host => '0.0.0.0',
+      :port => 3000,
+      :prefix => '/',
+      :quiet => false,
+      :conf_dir => Dir.pwd
+    }
   end
 
   # Memoized accessor for the `OptionParser` object. It is generated only when
@@ -25,25 +40,30 @@ class Jobim::CLI
 
       o.on('-a', '--address HOST',
            'bind to HOST address (default: 0.0.0.0)') do |host|
-        settings.host = host
+        options[:host] = host
+      end
+
+      o.on('-c', '--[no-]config [PATH]',
+           'Disable config loading or specify path to load from') do |v|
+        options[:conf_dir] = v.nil? ? Dir.pwd : v
       end
 
       o.on '-d', '--daemonize', 'Run as a daemon process' do
-        settings.daemonize = true
+        options[:daemonize] = true
       end
 
       o.on('-p', '--port PORT', OptionParser::DecimalInteger,
            'use PORT (default: 3000)') do |port|
         fail OptionParser::InvalidArgument if port == 0
-        settings.port = port
+        options[:port] = port
       end
 
       o.on '-P', '--prefix PATH', 'Mount the app under PATH' do |path|
-        settings.prefix = path
+        options[:prefix] = path
       end
 
       o.on '-q', '--quiet', 'Silence all logging' do
-        settings.quiet = true
+        options[:quiet] = true
       end
 
       o.separator ''
@@ -74,7 +94,7 @@ class Jobim::CLI
   # @return [NilClass] sentitinal nil value
   def parse(args)
     parser.parse!(args)
-    settings.dir = File.expand_path(args[0]) if args.length == 1
+    options[:dir] = File.expand_path(args[0]) if args.length == 1
 
     nil
   end

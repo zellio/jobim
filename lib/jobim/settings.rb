@@ -3,21 +3,13 @@ require 'yaml'
 # Manages applications settings and configuration. Handles sane defaults and
 # the loading / merging of configuration from files.
 class Jobim::Settings
-  VALID_KEYS = [:daemonize, :dir, :host, :port, :prefix, :quiet]
+  VALID_KEYS = [:daemonize, :dir, :host, :port, :prefix, :quiet, :conf_dir]
 
   attr_accessor *VALID_KEYS
 
-  def initialize(run_load = true)
-    update(
-      daemonize: false,
-      dir: Dir.pwd,
-      host: '0.0.0.0',
-      port: 3000,
-      prefix: '/',
-      quiet: false
-    )
-
-    load if run_load
+  def initialize(defaults={}) # (run_load = true)
+    update(defaults)
+    load if conf_dir
   end
 
   def update(opts)
@@ -53,7 +45,7 @@ class Jobim::Settings
   #
   # @param [String] directory to load files from (defaults to Dir.pwd)
   # @return [Jobim::Settings] self
-  def load(dir = Dir.pwd)
+  def load(dir = conf_dir)
     dir = Pathname(File.expand_path(dir))
     files = []
 

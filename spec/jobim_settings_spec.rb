@@ -26,36 +26,17 @@ describe Jobim::Settings, fakefs: true do
     end
   end
 
-  let(:settings) { Jobim::Settings.new(false) }
+  let(:settings) do
+    cli = Jobim::CLI.new
+    cli.parse(%w[--no-config])
+
+    settings = cli.settings
+    settings.conf_dir = Dir.pwd
+    settings
+  end
 
   describe '#initialize' do
 
-  end
-
-  describe 'options', no_conf: true do
-    it 'defaults daemonize to false' do
-      expect(settings.daemonize).to be_false
-    end
-
-    it 'defaults dir to current working directory' do
-      expect(settings.dir).to eql Dir.pwd
-    end
-
-    it 'defaults host to 0.0.0.0' do
-      expect(settings.host).to eql '0.0.0.0'
-    end
-
-    it 'defaults port to 3000' do
-      expect(settings.port).to eql 3000
-    end
-
-    it 'defaults prefix to /' do
-      expect(settings.prefix).to eql '/'
-    end
-
-    it 'defaults quiet to false' do
-      expect(settings.quiet).to be_false
-    end
   end
 
   describe '#load_file' do
