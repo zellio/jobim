@@ -27,6 +27,7 @@ Usage: jobim [OPTION]... [DIRECTORY]
 
 Specific options:
     -a, --address HOST               bind to HOST address (default: 0.0.0.0)
+    -c, --[no-]config [PATH]         Disable config loading or specify path to load from
     -d, --daemonize                  Run as a daemon process
     -p, --port PORT                  use PORT (default: 3000)
     -P, --prefix PATH                Mount the app under PATH
