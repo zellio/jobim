@@ -17,13 +17,13 @@ class Jobim::CLI
   # @return [Hash] options generated from #parse
   def options
     @options ||= {
-      :daemonize => false,
-      :dir => Dir.pwd,
-      :host => '0.0.0.0',
-      :port => 3000,
-      :prefix => '/',
-      :quiet => false,
-      :conf_dir => Dir.pwd
+      daemonize: false,
+      dir: Dir.pwd,
+      host: '0.0.0.0',
+      port: 3000,
+      prefix: '/',
+      quiet: false,
+      conf_dir: Dir.pwd
     }
   end
 

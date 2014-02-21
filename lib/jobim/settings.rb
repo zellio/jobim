@@ -7,7 +7,7 @@ class Jobim::Settings
 
   attr_accessor *VALID_KEYS
 
-  def initialize(defaults={}) # (run_load = true)
+  def initialize(defaults = {})
     update(defaults)
     load if conf_dir
   end
