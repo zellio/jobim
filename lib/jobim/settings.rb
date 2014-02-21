@@ -56,13 +56,13 @@ class Jobim::Settings
     update(opts)
   end
 
-  # Loads all the of the configuration files from the CWD up. This should
-  # probably be changed to take an argument for dir instead of it always using
-  # working directory.
+  # Loads all configuration files from provided directory up. Defaults to the
+  # current working directory of the program.
   #
+  # @param [String] directory to load files from (defaults to Dir.pwd)
   # @return [Jobim::Settings] self
-  def load
-    dir = Pathname(Dir.pwd)
+  def load(dir = Dir.pwd)
+    dir = Pathname(dir)
     files = []
 
     loop do
