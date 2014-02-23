@@ -13,14 +13,14 @@ describe Jobim::Server, fakefs: true do
   end
 
   let(:index)    { "<!DOCTYPE html>\n<html />\n" }
-  let(:settings) { Jobim::Settings.new }
+  let(:settings) { Jobim::CLI.new.settings }
 
   describe 'app', rack_test: true do
     before(:each) { $stdout.stub(:write) }
 
     let(:server) do
-      settings.options[:dir] = '/web_app'
-      Jobim::Server.new(settings.options)
+      settings.dir = '/web_app'
+      Jobim::Server.new(settings)
     end
 
     let(:app) { server.app }
@@ -46,8 +46,8 @@ describe Jobim::Server, fakefs: true do
 
   describe 'server' do
     let(:server) do
-      settings.options[:daemonize] = true
-      Jobim::Server.new(settings.options)
+      settings.daemonize = true
+      Jobim::Server.new(settings)
     end
 
     it 'sets server.pid_file if :daemonize is true' do

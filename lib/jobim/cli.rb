@@ -3,21 +3,28 @@ require 'optparse'
 # Command line interface for the Jobim application. Utilizes optparse to
 # manage user arguments and populates a `Jobim::Settings` object.
 class Jobim::CLI
-  attr_reader :parser, :settings, :exit
+  attr_reader :parser, :settings, :exit, :options
 
   # Memoized, lazy accessor for the settings object.
   #
   # @return [Jobim::Settings]
   def settings
-    @settings ||= Jobim::Settings.new
+    @settings ||= Jobim::Settings.new(options)
   end
 
-  # Accessor method for the hash contained in the owned `Jobim::Settings`
-  # object. Directly delegates access to the value returned by `#settings`.
+  # Memoized, lazy accessor for the options hash.
   #
-  # @return [Hash] the option hash
+  # @return [Hash] options generated from #parse
   def options
-    settings.options
+    @options ||= {
+      daemonize: false,
+      dir: Dir.pwd,
+      host: '0.0.0.0',
+      port: 3000,
+      prefix: '/',
+      quiet: false,
+      conf_dir: Dir.pwd
+    }
   end
 
   # Memoized accessor for the `OptionParser` object. It is generated only when
@@ -34,6 +41,11 @@ class Jobim::CLI
       o.on('-a', '--address HOST',
            'bind to HOST address (default: 0.0.0.0)') do |host|
         options[:host] = host
+      end
+
+      o.on('-c', '--[no-]config [PATH]',
+           'Disable config loading or specify path to load from') do |v|
+        options[:conf_dir] = v.nil? ? Dir.pwd : v
       end
 
       o.on '-d', '--daemonize', 'Run as a daemon process' do

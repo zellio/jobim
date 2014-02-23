@@ -4,11 +4,51 @@ describe Jobim::CLI, fakefs: true do
 
   let(:cli) { Jobim::CLI.new }
 
+  describe 'options' do
+    it 'defaults conf_dir to Dir.pwd' do
+      expect(cli.options[:conf_dir]).to eql Dir.pwd
+    end
+
+    it 'defaults daemonize to false' do
+      expect(cli.options[:daemonize]).to be_false
+    end
+
+    it 'defaults dir to current working directory' do
+      expect(cli.options[:dir]).to eql Dir.pwd
+    end
+
+    it 'defaults host to 0.0.0.0' do
+      expect(cli.options[:host]).to eql '0.0.0.0'
+    end
+
+    it 'defaults port to 3000' do
+      expect(cli.options[:port]).to eql 3000
+    end
+
+    it 'defaults prefix to /' do
+      expect(cli.options[:prefix]).to eql '/'
+    end
+
+    it 'defaults quiet to false' do
+      expect(cli.options[:quiet]).to be_false
+    end
+  end
+
   describe '#parser' do
     describe '-a, --address' do
       it 'sets the host address' do
         cli.parse(%w[--address foo])
         expect(cli.options[:host]).to eql 'foo'
+      end
+    end
+
+    describe '-c, --[no-]config' do
+      it 'sets the conf_dir value' do
+        cli.parse(%w[--no-config])
+        expect(cli.options[:conf_dir]).to be_false
+
+        cli.parse(%w[--config foo/bar])
+        expect(cli.options[:conf_dir]).to eql 'foo/bar'
       end
     end
 

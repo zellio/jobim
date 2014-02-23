@@ -2,35 +2,25 @@ require 'yaml'
 
 # Manages applications settings and configuration. Handles sane defaults and
 # the loading / merging of configuration from files.
-#
-# Should possibly be made to be closer to a pass through to the hash class or
-# to have better delegation and alleviate the need for @options
 class Jobim::Settings
-  attr_reader :options
+  VALID_KEYS = [:daemonize, :dir, :host, :port, :prefix, :quiet, :conf_dir]
 
-  def initialize(run_load = true)
-    load if run_load
+  attr_accessor *VALID_KEYS
+
+  def initialize(defaults = {})
+    update(defaults)
+    load if conf_dir
   end
 
-  # Option hash with memoized defualts.
-  #
-  # @return [Hash]
-  def options
-    @options ||= {
-      daemonize: false,
-      dir: Dir.pwd,
-      host: '0.0.0.0',
-      port: 3000,
-      prefix: '/',
-      quiet: false
-    }
+  def update(opts)
+    VALID_KEYS.each { |key| send("#{key}=", opts[key]) unless opts[key].nil? }
+    self
   end
 
-  # Loads a configuration file in the yaml format and merges the changes up
-  # into the `@options` hash.
+  # Loads a configuration file in the yaml format into the settings object.
   #
   # @param [String] file path to the configuration file
-  # @return [Hash] the options hash
+  # @return [Jobim::Settings] self
   def load_file(file)
     opts = YAML.load_file(file) || {}
     opts.keys.each do |key|
@@ -47,16 +37,16 @@ class Jobim::Settings
       end
     end
 
-    options.merge!(opts)
+    update(opts)
   end
 
-  # Loads all the of the configuration files from the CWD up. This should
-  # probably be changed to take an argument for dir instead of it always using
-  # working directory.
+  # Loads all configuration files from provided directory up. Defaults to the
+  # current working directory of the program.
   #
-  # @return [Hash] the options hash
-  def load
-    dir = Pathname(Dir.pwd)
+  # @param [String] directory to load files from (defaults to Dir.pwd)
+  # @return [Jobim::Settings] self
+  def load(dir = conf_dir)
+    dir = Pathname(File.expand_path(dir))
     files = []
 
     loop do
@@ -75,6 +65,6 @@ class Jobim::Settings
 
     files.each { |file| load_file(file) }
 
-    options
+    self
   end
 end
