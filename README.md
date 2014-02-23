@@ -9,7 +9,8 @@
 for rapid website design and development without the hassle and security risk
 of a full web-server installation. `jobim` leverages
 [Thin](//github.com/macournoyer/thin/) and exposes a limited subset of the
-`thin` executable command flags for your convenience.
+`thin` executable command flags for your convenience in addition to a set of
+flags for its own configuration.
 
 ## Installation
 
@@ -50,6 +51,28 @@ jobim path/to/webroot
 
 The site can be viewed at `http://localhost:3000` via a normal web browser.
 
+### Configuration Files
+
+`jobim` also allows for the use of a configuration file `.jobim.yml`. This can
+be used to set sane defaults for the `jobim` program to use in every
+execution. `jobim` will search up from the current working directory until it
+reaches `/` in the pursuit of configuration files, with the configuration
+options cascading from root to the current working directory. Options passed
+as command flags to `jobim` always win.
+
+```
+# Example config file
+---
+:dir: /web_root
+:prefix: /foo
+:port: 300
+```
+
+All options must be specified as key value pairs in a depth one hash. The keys
+must be ruby symbols (For historical reasons capitalization of these keys is
+irrelevant but they should be all downcase). The valid options are
+`:daemonize`, `:dir`, `:host`, `:port`, `:prefix`, `:quiet`, and `:conf_dir`.
+
 ## Contributing
 
 1. Fork it
@@ -60,4 +83,5 @@ The site can be viewed at `http://localhost:3000` via a normal web browser.
 
 ## Copyright
 
-Copyright (c) 2013-2014 Zachary Elliott. See [LICENSE](/LICENSE) for further details.
+Copyright (c) 2013-2014 Zachary Elliott. See [LICENSE](/LICENSE) for further
+details.
