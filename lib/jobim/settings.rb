@@ -1,41 +1,52 @@
 require 'yaml'
 
+# Manages applications settings and configuration. Handles sane defaults and
+# the loading / merging of configuration from files.
 class Jobim::Settings
+  VALID_KEYS = [:daemonize, :dir, :host, :port, :prefix, :quiet, :conf_dir]
 
-  attr_reader :options
+  attr_accessor *VALID_KEYS
 
-  def initialize(run_load=true)
-    load if run_load
+  def initialize(defaults = {})
+    update(defaults)
+    load if conf_dir
   end
 
-  def options
-    @options ||= {
-      :Daemonize => false,
-      :Dir => Dir.pwd,
-      :Host => '0.0.0.0',
-      :Port => 3000,
-      :Prefix => '/',
-      :Quiet => false
-    }
+  def update(opts)
+    VALID_KEYS.each { |key| send("#{key}=", opts[key]) unless opts[key].nil? }
+    self
   end
 
+  # Loads a configuration file in the yaml format into the settings object.
+  #
+  # @param [String] file path to the configuration file
+  # @return [Jobim::Settings] self
   def load_file(file)
-    opts = YAML.load_file(file)
+    opts = YAML.load_file(file) || {}
     opts.keys.each do |key|
-      opts[(key.to_s.capitalize.to_sym rescue key) || key] = opts.delete(key)
-    end
-
-    if opts[:Dir]
-      unless Pathname.new(opts[:Dir]).absolute?
-        opts[:Dir] = File.expand_path("../#{opts[:Dir]}", file)
+      begin
+        opts[key.to_s.downcase.to_sym || key] = opts.delete(key)
+      rescue
+        opts[key] = opts.delete(key)
       end
     end
 
-    options.merge!(opts)
+    if opts[:dir]
+      unless Pathname.new(opts[:dir]).absolute?
+        opts[:dir] = File.expand_path("../#{opts[:dir]}", file)
+      end
+    end
+
+    update(opts)
   end
 
-  def load
-    dir = Pathname(Dir.pwd)
+  # Loads all configuration files from provided directory up. Defaults to the
+  # current working directory of the program.
+  #
+  # @param [String] directory to load files from (defaults to Dir.pwd)
+  # @return [Jobim::Settings] self
+  def load(dir = conf_dir)
+    dir = Pathname(File.expand_path(dir))
     files = []
 
     loop do
@@ -52,9 +63,8 @@ class Jobim::Settings
       dir = dir.parent
     end
 
-    files.each {|file| self.load_file(file)}
+    files.each { |file| load_file(file) }
 
-    options
+    self
   end
-
 end

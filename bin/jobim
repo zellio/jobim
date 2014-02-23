@@ -3,8 +3,8 @@
 require 'pathname'
 file = Pathname.new(__FILE__).realpath
 
-$:.unshift File.expand_path("../../lib", file)
+$LOAD_PATH.unshift File.expand_path('../../lib', file)
 
 require 'jobim'
 
-Jobim::CLI.run!(*ARGV)
+Jobim::Application.run(*ARGV)

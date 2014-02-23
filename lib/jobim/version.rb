@@ -1,3 +1,4 @@
 module Jobim
-  VERSION = "0.5.1"
+  # Applcation version number
+  VERSION = '0.5.1'
 end

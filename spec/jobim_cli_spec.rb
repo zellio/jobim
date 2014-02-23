@@ -4,94 +4,102 @@ describe Jobim::CLI, fakefs: true do
 
   let(:cli) { Jobim::CLI.new }
 
-  describe "::run!" do
-    before(:each) do
-      Jobim::Server.stub(:start!)
-      $stdout.stub(:write)
-      $stderr.stub(:write)
+  describe 'options' do
+    it 'defaults conf_dir to Dir.pwd' do
+      expect(cli.options[:conf_dir]).to eql Dir.pwd
     end
 
-    it 'exits on --help command flag' do
-      expect { Jobim::CLI.run!("--help") }.to raise_error SystemExit
+    it 'defaults daemonize to false' do
+      expect(cli.options[:daemonize]).to be_false
     end
 
-    it 'exits on --version command flags' do
-      expect { Jobim::CLI.run!("--version") }.to raise_error SystemExit
+    it 'defaults dir to current working directory' do
+      expect(cli.options[:dir]).to eql Dir.pwd
     end
 
-    it 'starts the server' do
-      expect(Jobim::Server).to receive(:start!)
-      Jobim::CLI.run!
+    it 'defaults host to 0.0.0.0' do
+      expect(cli.options[:host]).to eql '0.0.0.0'
     end
 
-    it 'catches InvalidOption and reports to stderr' do
-      expect($stderr).to receive(:write)
-      Jobim::CLI.run!("--foo")
+    it 'defaults port to 3000' do
+      expect(cli.options[:port]).to eql 3000
     end
 
-    it 'catches RuntimeError and reports to stderr' do
-      expect($stderr).to receive(:write)
-      Jobim::Server.unstub(:start!)
-      Jobim::CLI.run!("--port", "1")
+    it 'defaults prefix to /' do
+      expect(cli.options[:prefix]).to eql '/'
+    end
+
+    it 'defaults quiet to false' do
+      expect(cli.options[:quiet]).to be_false
     end
   end
 
-  describe "#parser" do
-    describe "-a, --address" do
+  describe '#parser' do
+    describe '-a, --address' do
       it 'sets the host address' do
         cli.parse(%w[--address foo])
-        expect(cli.options[:Host]).to eql 'foo'
+        expect(cli.options[:host]).to eql 'foo'
       end
     end
 
-    describe "-d, --daemonize" do
+    describe '-c, --[no-]config' do
+      it 'sets the conf_dir value' do
+        cli.parse(%w[--no-config])
+        expect(cli.options[:conf_dir]).to be_false
+
+        cli.parse(%w[--config foo/bar])
+        expect(cli.options[:conf_dir]).to eql 'foo/bar'
+      end
+    end
+
+    describe '-d, --daemonize' do
       it 'sets the daemonize flag' do
         cli.parse(%w[--daemonize])
-        expect(cli.options[:Host]).to be_true
+        expect(cli.options[:host]).to be_true
       end
     end
 
-    describe "-p, --port" do
+    describe '-p, --port' do
       it 'takes an Integer' do
-        expect {
+        expect do
           cli.parse(%w[--port foo])
-        }.to raise_error OptionParser::InvalidArgument
+        end.to raise_error OptionParser::InvalidArgument
       end
 
       it 'considers 0 to be an invalid argument' do
-        expect {
+        expect do
           cli.parse(%w[--port 0])
-        }.to raise_error OptionParser::InvalidArgument
+        end.to raise_error OptionParser::InvalidArgument
       end
 
       it 'sets the binding port' do
         cli.parse(%w[--port 3333])
-        expect(cli.options[:Port]).to eql 3333
+        expect(cli.options[:port]).to eql 3333
       end
     end
 
-    describe "-P, --prefix" do
+    describe '-P, --prefix' do
       it 'sets the path to mount the app under' do
         cli.parse(%w[--prefix /foo])
-        expect(cli.options[:Prefix]).to eql '/foo'
+        expect(cli.options[:prefix]).to eql '/foo'
       end
     end
 
-    describe "-q, --quiet" do
+    describe '-q, --quiet' do
       it 'sets the quiet flag' do
         cli.parse(%w[--quiet])
-        expect(cli.options[:Quiet]).to be_true
+        expect(cli.options[:quiet]).to be_true
       end
     end
 
-    describe "-h, --help" do
+    describe '-h, --help' do
       it 'displays the help message' do
         expect($stdout).to receive(:write).with(cli.help)
         cli.parse(%w[--help])
       end
     end
 
-    describe "--version" do
+    describe '--version' do
       it 'displays the version number' do
         expect($stdout).to receive(:write).with("#{Jobim::VERSION}\n")
         cli.parse(%w[--version])
@@ -99,7 +107,7 @@ describe Jobim::CLI, fakefs: true do
     end
   end
 
-  describe "#parse", fakefs: true do
+  describe '#parse', fakefs: true do
     it 'parses the cli option array' do
       args = %w[--port 3333 --prefix /foo]
       cli.parse(args)
@@ -109,13 +117,13 @@ describe Jobim::CLI, fakefs: true do
     it 'sets the Directory option to its trailing argument' do
       args = %w[dir]
       cli.parse(args)
-      expect(cli.options[:Dir]).to eql '/dir'
+      expect(cli.options[:dir]).to eql '/dir'
     end
   end
 
-  describe "#help" do
+  describe '#help' do
     it 'returns the help message' do
-      expect(cli.help).to include("Usage: jobim [OPTION]... [DIRECTORY]")
+      expect(cli.help).to include('Usage: jobim [OPTION]... [DIRECTORY]')
     end
   end
 
